@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swiss Design - Variant 4 (Typography & Fluid Grid)</title>
+    <style>
+        body { margin: 0; overflow: hidden; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    </style>
+</head>
+<body>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.min.js"></script>
+
+    <script>
+        let cols, rows;
+        let points = [];
+        let resolution = 30; // Densità della griglia
+
+        function setup() {
+            createCanvas(windowWidth, windowHeight);
+            background(255);
+            
+            cols = floor(width / resolution);
+            rows = floor(height / resolution);
+
+            for (let i = 0; i < cols; i++) {
+                for (let j = 0; j < rows; j++) {
+                    let x = i * resolution + resolution / 2;
+                    let y = j * resolution + resolution / 2;
+                    points.push(createVector(x, y));
+                }
+            }
+            textAlign(CENTER, CENTER);
+            textSize(width * 0.08); // Dimensione testo dinamica
+            textFont('Helvetica Neue, Helvetica, Arial, sans-serif'); // Font pulito
+        }
+
+        function draw() {
+            background(255, 100); // Sfondo leggermente trasparente per un tocco di scia sottile
+
+            // Testo che segue il mouse in modo fluido
+            let textX = lerp(width / 2, mouseX, 0.1);
+            let textY = lerp(height / 2, mouseY, 0.1);
+
+            fill(0); // Nero per il testo
+            text("DESIGN", textX, height / 2 - 50);
+            text("SYSTEM", width - textX, height / 2 + 50);
+
+            // Griglia di punti reattiva
+            for (let i = 0; i < points.length; i++) {
+                let p = points[i];
+                let d = dist(mouseX, mouseY, p.x, p.y);
+                let offset = map(d, 0, 200, 10, 0, true); // Effetto di allontanamento
+                
+                let targetX = p.x;
+                let targetY = p.y;
+
+                if (d < 200) {
+                    let angleToMouse = atan2(mouseY - p.y, mouseX - p.x);
+                    targetX -= cos(angleToMouse) * offset;
+                    targetY -= sin(angleToMouse) * offset;
+                }
+
+                // Disegna il punto speculare
+                noStroke();
+                fill(0, 100); // Grigio semitrasparente per i punti
+                ellipse(targetX, targetY, 4, 4);
+                
+                // Disegna il punto speculare
+                fill(255, 0, 0, 150); // Rosso primario per il punto speculare
+                ellipse(width - targetX, targetY, 4, 4);
+
+            }
+        }
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+            background(255);
+            
+            // Ricalcola i punti della griglia
+            cols = floor(width / resolution);
+            rows = floor(height / resolution);
+            points = [];
+            for (let i = 0; i < cols; i++) {
+                for (let j = 0; j < rows; j++) {
+                    let x = i * resolution + resolution / 2;
+                    let y = j * resolution + resolution / 2;
+                    points.push(createVector(x, y));
+                }
+            }
+            textSize(width * 0.08);
+        }
+    </script>
+
+</body>
+</html>
