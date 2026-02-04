@@ -34,12 +34,13 @@
             background-color: var(--bg-light);
             font-family: var(--main-font);
             -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
         }
 
         /* CUSTOM CURSOR */
         .custom-cursor {
             width: 18px; height: 18px;
-            background-color: var(--text-dark);
+            background-color: var(--bg-light);
             border-radius: 50%;
             position: fixed; top: 0; left: 0;
             pointer-events: none; z-index: 9999;
@@ -59,8 +60,23 @@
         }
 
         .header-left-link { text-decoration: none; display: flex; align-items: center; gap: 15px; }
-        .logo-box { width: 60px; height: 60px; margin-left: -12px; }
-        .logo-box img { width: 100%; height: 100%; object-fit: contain; }
+        
+        /* FIX LOGO BOX: Assicuriamo dimensioni e visibilità */
+        .logo-box { 
+            width: 60px; 
+            height: 60px; 
+            margin-left: -12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-box img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: contain; 
+            display: block; /* Evita spazi vuoti sotto l'immagine */
+        }
+
         .header-title { color: var(--text-dark); font-size: 20px; font-weight: 900; text-transform: lowercase; }
 
         .nav-menu ul { display: flex; list-style: none; gap: 30px; }
@@ -68,101 +84,48 @@
         .nav-menu a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0; background-color: var(--text-dark); transition: width 0.3s ease; }
         .nav-menu a:hover::after, .nav-menu a.active::after { width: 100%; }
 
-        /* PROJECT HERO */
-        .project-hero {
-            padding: 100px 60px 60px 60px;
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 20px;
+        /* DROPDOWN MENU */
+        .has-dropdown { position: relative; }
+        .dropdown-menu {
+            position: absolute; top: 115%; left: 50%;
+            transform: translateX(-50%) translateY(15px);
+            background-color: var(--bg-dark); min-width: 220px;
+            padding: 0; display: flex; flex-direction: column;
+            opacity: 0; visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 25px; overflow: hidden;
         }
+        .has-dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .dropdown-menu a {
+            color: var(--bg-light) !important; padding: 15px 25px;
+            font-size: 11px !important; text-transform: uppercase;
+            font-weight: 900; text-align: center;
+            border-bottom: 1px solid rgba(245, 245, 220, 0.2);
+            transition: all 0.3s ease;
+        }
+        .dropdown-menu a:last-child { border-bottom: none; }
+        .dropdown-menu a::after { display: none; }
+        .dropdown-menu a:hover { background-color: var(--bg-light); color: var(--text-dark) !important; }
 
-        .project-main-title {
-            grid-column: 1 / span 6;
-            font-size: 35px;
-            font-weight: 900;
-            text-transform: uppercase;
-            line-height: 1.1;
-            color: var(--text-dark);
-        }
-
-        .project-description {
-            grid-column: 1 / span 6;
-            font-size: 16px;
-            line-height: 1.5;
-            color: var(--text-dark);
-            margin-top: 20px;
-            text-align: justify;
-        }
-
-        /* --- GALLERY SEZIONE CARD (TAG ELIMINATI) --- */
-        .content-wrapper {
-            width: 100%;
-            padding: 0 60px 80px 60px;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 60px 20px;
-            width: 100%;
-        }
-
-        .project-card {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            text-decoration: none;
-        }
-
-        .project-image-box {
-            width: 100%;
-            aspect-ratio: 7 / 5;
-            background-color: #ddd;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .project-image-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .project-card:hover .project-image-box img {
-            transform: scale(1.05);
-        }
-
-        .project-title {
-            font-size: 18px;
-            font-weight: 900;
-            color: var(--text-dark);
-            text-transform: lowercase;
-        }
-
-        /* --- 3D SECTION --- */
-        .p5-canvas-section {
-            width: 100%;
-            height: 80vh;
-            background-color: #e0e0d0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            border-top: 1px solid rgba(43, 30, 22, 0.1);
-        }
-
-        /* FOOTER */
-        footer.site-footer {
-            background-color: var(--bg-dark); color: var(--bg-light); padding: 80px 60px 40px 60px;
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
-        }
+        /* ... Resto dello stile invariato ... */
+        .project-hero { padding: 100px 60px 60px 60px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+        .project-main-title { grid-column: 1 / span 6; font-size: 35px; font-weight: 900; text-transform: uppercase; line-height: 1.1; color: var(--text-dark); }
+        .project-description { grid-column: 1 / span 6; font-size: 16px; line-height: 1.5; color: var(--text-dark); margin-top: 20px; text-align: justify; }
+        .content-wrapper { width: 100%; padding: 0 60px 80px 60px; }
+        .projects-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 60px 20px; width: 100%; }
+        .project-card { width: 100%; display: flex; flex-direction: column; gap: 15px; text-decoration: none; }
+        .project-image-box { width: 100%; aspect-ratio: 7 / 5; background-color: #ddd; overflow: hidden; position: relative; }
+        .project-image-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .project-card:hover .project-image-box img { transform: scale(1.05); }
+        .project-title { font-size: 18px; font-weight: 900; color: var(--text-dark); text-transform: lowercase; }
+        .p5-canvas-section { width: 100%; height: 80vh; background-color: #e0e0d0; display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; border-top: 1px solid rgba(43, 30, 22, 0.1); }
+        footer.site-footer { background-color: var(--bg-dark); color: var(--bg-light); padding: 80px 60px 40px 60px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
         .footer-col h4 { font-size: 12px; text-transform: uppercase; margin-bottom: 25px; font-weight: 900; opacity: 0.6; }
-        .footer-col a { text-decoration: none; color: var(--bg-light); font-size: 14px; }
-        .status-dot { width: 8px; height: 8px; background-color: #00ff00; border-radius: 50%; }
-
+        .footer-col ul { list-style: none; }
+        .footer-col a { text-decoration: none; color: var(--bg-light); font-size: 14px; transition: opacity 0.3s; }
+        .footer-col a:hover { opacity: 0.7; }
+        .status-dot { width: 8px; height: 8px; background-color: #00ff00; border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(0, 255, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 255, 0, 0); } }
     </style>
 </head>
 <body>
@@ -172,7 +135,7 @@
     <header>
         <a href="../homepage.html" class="header-left-link">
             <div class="logo-box">
-                <img src="../giorno_01/assets/logo.png" alt="Logo">
+                <img src="../../documenti/assets/logo.png" alt="Logo">
             </div>
             <h2 class="header-title">kikerio design</h2>
         </a>
@@ -183,6 +146,15 @@
                 <li><a href="../homepage.html#servizi">Services</a></li>
                 <li class="has-dropdown">
                     <a href="../homepage.html#portfolio">Portfolio</a>
+                    <div class="dropdown-menu">
+                        <a href="../homepage.html#portfolio">Posters</a>
+                        <a href="../homepage.html#portfolio">Branding</a>
+                        <a href="../homepage.html#portfolio">Fonts</a>
+                        <a href="../homepage.html#portfolio">Editorial</a>
+                        <a href="../homepage.html#portfolio">Websites</a>
+                        <a href="../homepage.html#portfolio">Pictures</a>
+                        <a href="../homepage.html#portfolio">Creative Coding</a>
+                    </div>
                 </li>
                 <li><a href="../homepage.html#about">About</a></li>
                 <li><a href="../homepage.html#contact">Contact</a></li>
@@ -200,67 +172,50 @@
 
         <div class="content-wrapper">
             <div class="projects-grid">
-                
                 <div class="project-card">
                     <div class="project-image-box">
-                        <img src="path/to/img1.jpg" alt="Exercise 01">
+                        <img src="../documenti/assets/cover.jpg" alt="Exercise 01">
                     </div>
                     <div class="project-info">
                         <h3 class="project-title">01 — kinetic study</h3>
                     </div>
                 </div>
-
-                <div class="project-card">
-                    <div class="project-image-box">
-                        <img src="path/to/img2.jpg" alt="Exercise 02">
-                    </div>
-                    <div class="project-info">
-                        <h3 class="project-title">02 — glitch patterns</h3>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-image-box">
-                        <img src="path/to/img3.jpg" alt="Exercise 03">
-                    </div>
-                    <div class="project-info">
-                        <h3 class="project-title">03 — typographic lab</h3>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-image-box">
-                        <img src="path/to/img4.jpg" alt="Exercise 04">
-                    </div>
-                    <div class="project-info">
-                        <h3 class="project-title">04 — mouse interaction</h3>
-                    </div>
-                </div>
-
             </div>
         </div>
 
-        <section id="sketch-holder" class="p5-canvas-section">
-        </section>
+        <section id="sketch-holder" class="p5-canvas-section"></section>
     </main>
 
     <footer class="site-footer">
         <div class="footer-col">
             <h4>Navigation</h4>
-            <ul style="list-style: none;">
+            <ul>
                 <li><a href="../homepage.html">Welcome</a></li>
+                <li><a href="../homepage.html#servizi">Services</a></li>
                 <li><a href="../homepage.html#portfolio">Portfolio</a></li>
+                <li><a href="../homepage.html#about">About</a></li>
+                <li><a href="../homepage.html#contact">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Social</h4>
+            <ul>
+                <li><a href="#">Instagram</a></li>
+                <li><a href="#">Behance</a></li>
+                <li><a href="#">LinkedIn</a></li>
             </ul>
         </div>
         <div class="footer-col">
             <h4>Contact</h4>
-            <a href="mailto:kikeriodesign@gmail.com">kikeriodesign@gmail.com</a>
+            <ul>
+                <li><a href="mailto:kikeriodesign@gmail.com">kikeriodesign@gmail.com</a></li>
+            </ul>
         </div>
         <div class="footer-col">
             <h4>Availability</h4>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="status-dot"></span>
-                <span style="font-size: 14px;">Available for Projects</span>
+                <span style="font-size: 14px; font-weight: 400;">Available for Projects</span>
             </div>
         </div>
     </footer>

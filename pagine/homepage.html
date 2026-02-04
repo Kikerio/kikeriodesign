@@ -8,12 +8,12 @@
 /* 1. CARICAMENTO FONT GEIST */
 @font-face {
 font-family: 'Geist';
-src: url('giorno_01/fonts/Geist-Regular.woff2') format('woff2');
+src: url('../giorno_01/fonts/Geist-Regular.woff2') format('woff2');
 font-weight: 400;
 }
 @font-face {
 font-family: 'Geist';
-src: url('giorno_01/fonts/Geist-Black.woff2') format('woff2');
+src: url('../giorno_01/fonts/Geist-Black.woff2') format('woff2');
 font-weight: 900;
 }
 
@@ -172,7 +172,7 @@ width: 100%;
     transform: translateX(-50%) translateY(15px);
     background-color: var(--bg-dark);
     min-width: 220px;
-    padding: 0; /* Rimosso padding per far toccare la prima voce */
+    padding: 0;
     display: flex;
     flex-direction: column;
     opacity: 0;
@@ -220,6 +220,7 @@ background-color: var(--text-dark);
 margin: 0 auto;
 }
 
+/* --- HERO IMAGE CONFIG --- */
 .main-hero {
 position: relative;
 width: 100%;
@@ -232,20 +233,27 @@ justify-content: center;
 }
 
 .hero-image {
-position: absolute;
-top: 0; left: 0;
-width: 100%;
-height: 100%;
-background-image: url('giorno_01/assets/cover.jpg');
-background-size: cover;
-background-position: center;
-filter: brightness(0.7);
-transition: transform 2s cubic-bezier(0.16, 1, 0.3, 1);
-transform: scale(1.1);
-z-index: 1;
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
 }
 
-.show-site .hero-image { transform: scale(1); }
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    object-position: center;
+    filter: brightness(0.7);
+    transition: transform 2s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: scale(1.1); 
+}
+
+.show-site .hero-image img { 
+    transform: scale(1); 
+}
 
 .hero-loader-container {
 position: relative;
@@ -700,7 +708,7 @@ display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
 <header>
 <a href="homepage.html" class="header-left-link">
 <div class="logo-box">
-<img src="giorno_01/assets/logo.png" alt="Kikerio Design Logo">
+    <img src="../documenti/assets/logo.png" alt="Kikerio Design Logo">
 </div>
 <h2 class="header-title">kikerio design</h2>
 </a>
@@ -728,7 +736,9 @@ display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
 </header>
 
 <section class="main-hero">
-<div class="hero-image"></div>
+<div class="hero-image">
+    <img src="../documenti/assets/cover.jpg" alt="Cover Image">
+</div>
 <div class="hero-loader-container">
 <div class="loader">
 <span>designing</span>
@@ -778,7 +788,7 @@ every piece of content following a precise logic.
 <div class="projects-grid">
 <a href="Progetti/P01_Workshop_IPPD.html" class="project-card">
 <div class="project-image-box">
-<img src="Progetti/File progetti/P01_Workshop_IPPD/P01_IPPD_Cover.png" alt="Workshop 2 Project Screenshot">
+    <img src="../progetti/01_workshop_coding/01_workshop_coding_cover.png" alt="Workshop 2 Project Cover">
 </div>
 <div class="project-info">
 <h3 class="project-title">Workshop 2 — Introduction to Programming for Designers</h3>
@@ -801,7 +811,7 @@ every piece of content following a precise logic.
 <span class="approach-tag" style="margin-bottom:0; color:var(--text-dark);">SWISS BASED</span>
 </div>
 <div class="about-image-container">
-<img src="giorno_01/assets/esercizio_02.jpeg" alt="Profile Portrait">
+<img src="../giorno_01/assets/esercizio_02.jpeg" alt="Profile Portrait">
 </div>
 </div>
 
@@ -819,7 +829,7 @@ today, i study visual communication at SUPSI, building on a solid foundation fro
 </div>
 <div class="about-btn-container">
 <a href="about.html" class="read-story-btn">READ MY FULL STORY</a>
-<a href="giorno_01/assets/cv_kikerio.pdf" class="cv-btn" download>DOWNLOAD MY CV</a>
+<a href="../giorno_01/assets/cv_kikerio.pdf" class="cv-btn" download>DOWNLOAD MY CV</a>
 </div>
 </div>
 </section>
@@ -897,7 +907,7 @@ today, i study visual communication at SUPSI, building on a solid foundation fro
 </main>
 
 <audio id="bg-audio">
-<source src="giorno_01/assets/audio.mp3" type="audio/mpeg">
+<source src="../giorno_01/assets/audio.mp3" type="audio/mpeg">
 </audio>
 
 <script>
