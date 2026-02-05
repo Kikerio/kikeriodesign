@@ -8,12 +8,12 @@
         /* 1. CARICAMENTO FONT GEIST */
         @font-face {
             font-family: 'Geist';
-            src: url('../giorno_01/fonts/Geist-Regular.woff2') format('woff2');
+            src: url('../../giorno_01/fonts/Geist-Regular.woff2') format('woff2');
             font-weight: 400;
         }
         @font-face {
             font-family: 'Geist';
-            src: url('../giorno_01/fonts/Geist-Black.woff2') format('woff2');
+            src: url('../../giorno_01/fonts/Geist-Black.woff2') format('woff2');
             font-weight: 900;
         }
 
@@ -23,7 +23,6 @@
             --text-dark: #2B1E16;
             --main-font: 'Geist', sans-serif;
             --header-height: 125px;
-            --site-padding: 80px;
         }
 
         /* RESET E CURSORE */
@@ -31,6 +30,7 @@
 
         body, html {
             width: 100%;
+            height: 100%;
             background-color: var(--bg-light);
             font-family: var(--main-font);
             -webkit-font-smoothing: antialiased;
@@ -42,8 +42,10 @@
             width: 18px; height: 18px;
             background-color: var(--bg-light);
             border-radius: 50%;
-            position: fixed; top: 0; left: 0;
-            pointer-events: none; z-index: 9999;
+            position: fixed;
+            top: 0; left: 0;
+            pointer-events: none;
+            z-index: 9999;
             mix-blend-mode: difference;
             transition: transform 0.1s ease-out, width 0.3s ease, height 0.3s ease;
             transform: translate(-50%, -50%);
@@ -53,35 +55,36 @@
         /* HEADER */
         header {
             width: 100%; height: var(--header-height);
-            display: grid; grid-template-columns: auto 1fr auto;
-            align-items: center; padding: 0 60px;
-            position: sticky; top: 0;
-            background-color: var(--bg-light); z-index: 900;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            padding: 0 60px;
+            position: sticky;
+            top: 0;
+            background-color: var(--bg-light);
+            z-index: 900;
         }
 
         .header-left-link { text-decoration: none; display: flex; align-items: center; gap: 15px; }
-        
-        /* FIX LOGO BOX: Assicuriamo dimensioni e visibilità */
-        .logo-box { 
-            width: 60px; 
-            height: 60px; 
-            margin-left: -12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .logo-box img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: contain; 
-            display: block; /* Evita spazi vuoti sotto l'immagine */
-        }
-
+        .logo-box { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; margin-left: -12px; }
+        .logo-box img { width: 100%; height: 100%; object-fit: contain; }
         .header-title { color: var(--text-dark); font-size: 20px; font-weight: 900; text-transform: lowercase; }
 
         .nav-menu ul { display: flex; list-style: none; gap: 30px; }
-        .nav-menu a { text-decoration: none; color: var(--text-dark); font-size: 13px; font-weight: 900; text-transform: uppercase; position: relative; padding-bottom: 4px; }
-        .nav-menu a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0; background-color: var(--text-dark); transition: width 0.3s ease; }
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 13px;
+            font-weight: 900;
+            text-transform: uppercase;
+            position: relative;
+            padding-bottom: 4px;
+        }
+        .nav-menu a::after {
+            content: ''; position: absolute; width: 0; height: 2px;
+            bottom: 0; left: 0; background-color: var(--text-dark);
+            transition: width 0.3s ease;
+        }
         .nav-menu a:hover::after, .nav-menu a.active::after { width: 100%; }
 
         /* DROPDOWN MENU */
@@ -89,8 +92,8 @@
         .dropdown-menu {
             position: absolute; top: 115%; left: 50%;
             transform: translateX(-50%) translateY(15px);
-            background-color: var(--bg-dark); min-width: 220px;
-            padding: 0; display: flex; flex-direction: column;
+            background-color: var(--bg-dark);
+            min-width: 220px; display: flex; flex-direction: column;
             opacity: 0; visibility: hidden;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             border-radius: 25px; overflow: hidden;
@@ -98,34 +101,77 @@
         .has-dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
         .dropdown-menu a {
             color: var(--bg-light) !important; padding: 15px 25px;
-            font-size: 11px !important; text-transform: uppercase;
-            font-weight: 900; text-align: center;
+            font-size: 11px !important; text-align: center;
             border-bottom: 1px solid rgba(245, 245, 220, 0.2);
-            transition: all 0.3s ease;
+            text-decoration: none;
+            font-weight: 900;
+            text-transform: uppercase;
         }
         .dropdown-menu a:last-child { border-bottom: none; }
-        .dropdown-menu a::after { display: none; }
         .dropdown-menu a:hover { background-color: var(--bg-light); color: var(--text-dark) !important; }
 
-        /* ... Resto dello stile invariato ... */
-        .project-hero { padding: 100px 60px 60px 60px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
-        .project-main-title { grid-column: 1 / span 6; font-size: 35px; font-weight: 900; text-transform: uppercase; line-height: 1.1; color: var(--text-dark); }
-        .project-description { grid-column: 1 / span 6; font-size: 16px; line-height: 1.5; color: var(--text-dark); margin-top: 20px; text-align: justify; }
-        .content-wrapper { width: 100%; padding: 0 60px 80px 60px; }
-        .projects-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 60px 20px; width: 100%; }
-        .project-card { width: 100%; display: flex; flex-direction: column; gap: 15px; text-decoration: none; }
-        .project-image-box { width: 100%; aspect-ratio: 7 / 5; background-color: #ddd; overflow: hidden; position: relative; }
-        .project-image-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-        .project-card:hover .project-image-box img { transform: scale(1.05); }
-        .project-title { font-size: 18px; font-weight: 900; color: var(--text-dark); text-transform: lowercase; }
-        .p5-canvas-section { width: 100%; height: 80vh; background-color: #e0e0d0; display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; border-top: 1px solid rgba(43, 30, 22, 0.1); }
-        footer.site-footer { background-color: var(--bg-dark); color: var(--bg-light); padding: 80px 60px 40px 60px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
+        /* MAIN CONTENT AREA */
+        main {
+            min-height: calc(100vh - var(--header-height));
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* STILE PER IL COLLEGAMENTO PROGETTO */
+        .project-frame {
+            width: 100%;
+            height: 90vh; /* Occupa quasi tutta l'altezza dello schermo */
+            border: none;
+            pointer-events: auto; /* Permette l'interazione con lo sketch */
+        }
+
+        /* --- SLOGAN MARQUEE --- */
+        .slogan-marquee {
+            width: 100%;
+            background-color: var(--bg-dark);
+            padding: 60px 0;
+            overflow: hidden;
+            display: flex;
+            white-space: nowrap;
+        }
+
+        .marquee-content {
+            display: flex;
+            animation: infinite-scroll 25s linear infinite;
+        }
+
+        .marquee-text {
+            color: var(--bg-light);
+            font-size: 12vw;
+            font-weight: 900;
+            text-transform: uppercase;
+            padding-right: 60px;
+            letter-spacing: -0.05em;
+        }
+
+        @keyframes infinite-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* FOOTER ORIGINALE */
+        footer.site-footer {
+            background-color: var(--bg-dark); color: var(--bg-light); padding: 80px 60px 40px 60px;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
+        }
         .footer-col h4 { font-size: 12px; text-transform: uppercase; margin-bottom: 25px; font-weight: 900; opacity: 0.6; }
         .footer-col ul { list-style: none; }
         .footer-col a { text-decoration: none; color: var(--bg-light); font-size: 14px; transition: opacity 0.3s; }
-        .footer-col a:hover { opacity: 0.7; }
         .status-dot { width: 8px; height: 8px; background-color: #00ff00; border-radius: 50%; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(0, 255, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 255, 0, 0); } }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 255, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 255, 0, 0); }
+        }
     </style>
 </head>
 <body>
@@ -133,73 +179,59 @@
     <div class="custom-cursor"></div>
 
     <header>
-        <a href="../homepage.html" class="header-left-link">
-            <div class="logo-box">
-                <img src="../../documenti/assets/logo.png" alt="Logo">
-            </div>
+        <a href="../../homepage.html" class="header-left-link">
+            <div class="logo-box"><img src="../../documenti/assets/logo.png" alt="Logo"></div>
             <h2 class="header-title">kikerio design</h2>
         </a>
         <div class="spacer"></div>
         <nav class="nav-menu">
             <ul>
-                <li><a href="../homepage.html">Welcome</a></li>
-                <li><a href="../homepage.html#servizi">Services</a></li>
+                <li><a href="../../homepage.html">Welcome</a></li>
+                <li><a href="../../homepage.html#servizi">Services</a></li>
                 <li class="has-dropdown">
-                    <a href="../homepage.html#portfolio">Portfolio</a>
+                    <a href="../../homepage.html#portfolio">Portfolio</a>
                     <div class="dropdown-menu">
-                        <a href="../homepage.html#portfolio">Posters</a>
-                        <a href="../homepage.html#portfolio">Branding</a>
-                        <a href="../homepage.html#portfolio">Fonts</a>
-                        <a href="../homepage.html#portfolio">Editorial</a>
-                        <a href="../homepage.html#portfolio">Websites</a>
-                        <a href="../homepage.html#portfolio">Pictures</a>
-                        <a href="../homepage.html#portfolio">Creative Coding</a>
+                        <a href="../../homepage.html#work">Creative Coding</a>
+                        <a href="../../homepage.html#work">Branding</a>
+                        <a href="../../homepage.html#work">Websites</a>
+                        <a href="../../homepage.html#work">Posters</a>
+                        <a href="../../homepage.html#work">Editorial</a>
+                        <a href="../../homepage.html#work">Pictures</a>
                     </div>
                 </li>
-                <li><a href="../homepage.html#about">About</a></li>
-                <li><a href="../homepage.html#contact">Contact</a></li>
+                <li><a href="../../homepage.html#about">About</a></li>
+                <li><a href="../../homepage.html#contact">Contact</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <section class="project-hero">
-            <h1 class="project-main-title">workshop 2 — introduction to programming for designers</h1>
-            <div class="project-description">
-                This project was developed during a workshop on programming for designers, focused on creative coding for the web. Step by step, simple exercises grew into more complex visual experiments.
-            </div>
-        </section>
-
-        <div class="content-wrapper">
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-image-box">
-                        <img src="../documenti/assets/cover.jpg" alt="Exercise 01">
-                    </div>
-                    <div class="project-info">
-                        <h3 class="project-title">01 — kinetic study</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <section id="sketch-holder" class="p5-canvas-section"></section>
+        <iframe class="project-frame" src="../../progetti/01_workshop_coding/esercizi/esercizio_01/esercizio_01.html"></iframe>
     </main>
+
+    <section class="slogan-marquee">
+        <div class="marquee-content">
+            <div class="marquee-text">STRAIGHT TO THE POINT —</div>
+            <div class="marquee-text">STRAIGHT TO THE POINT —</div>
+            <div class="marquee-text">STRAIGHT TO THE POINT —</div>
+            <div class="marquee-text">STRAIGHT TO THE POINT —</div>
+        </div>
+    </section>
 
     <footer class="site-footer">
         <div class="footer-col">
             <h4>Navigation</h4>
-            <ul>
-                <li><a href="../homepage.html">Welcome</a></li>
-                <li><a href="../homepage.html#servizi">Services</a></li>
-                <li><a href="../homepage.html#portfolio">Portfolio</a></li>
-                <li><a href="../homepage.html#about">About</a></li>
-                <li><a href="../homepage.html#contact">Contact</a></li>
+            <ul style="list-style: none;">
+                <li><a href="../../homepage.html">Welcome</a></li>
+                <li><a href="../../homepage.html#servizi">Services</a></li>
+                <li><a href="../../homepage.html#portfolio">Portfolio</a></li>
+                <li><a href="../../homepage.html#about">About</a></li>
+                <li><a href="../../homepage.html#contact">Contact</a></li>
             </ul>
         </div>
         <div class="footer-col">
             <h4>Social</h4>
-            <ul>
+            <ul style="list-style: none;">
                 <li><a href="#">Instagram</a></li>
                 <li><a href="#">Behance</a></li>
                 <li><a href="#">LinkedIn</a></li>
@@ -207,7 +239,7 @@
         </div>
         <div class="footer-col">
             <h4>Contact</h4>
-            <ul>
+            <ul style="list-style: none;">
                 <li><a href="mailto:kikeriodesign@gmail.com">kikeriodesign@gmail.com</a></li>
             </ul>
         </div>
@@ -227,7 +259,7 @@
             cursor.style.top = e.clientY + 'px';
         });
 
-        const interactiveElements = document.querySelectorAll('a, button, .logo-box, .project-card');
+        const interactiveElements = document.querySelectorAll('a, button, .logo-box, .dropdown-menu a, .project-frame');
         interactiveElements.forEach(el => {
             el.addEventListener('mouseenter', () => cursor.classList.add('link-hover'));
             el.addEventListener('mouseleave', () => cursor.classList.remove('link-hover'));
