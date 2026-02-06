@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Workshop Coding Lab | Kikerio Design</title>
+<title>Summer 22 | Kikerio Design</title>
 <style>
 @font-face { font-family: 'Geist'; src: url('../../../documenti/fonts/Geist-Regular.woff2') format('woff2'); font-weight: 400; }
 
@@ -31,7 +31,7 @@ header { width: 100%; position: fixed; top: 0; z-index: 9000; background-color: 
 section { padding: 100px 40px; border-bottom: 1px solid var(--border-color); background: var(--bg-light); position: relative; z-index: 1; }
 
 /* HERO */
-.project-hero { margin-top: var(--header-h); padding: 140px 40px; }
+.project-hero { margin-top: var(--header-h); padding: 100px 40px; }
 .project-title-large { font-size: var(--f-display); font-weight: 400; text-transform: lowercase; line-height: 1.0; letter-spacing: -0.04em; margin-bottom: 40px; }
 .tag-pill { font-size: var(--f-interface); font-weight: 400; color: var(--text-dark); text-transform: uppercase; text-decoration: none; padding: 12px 25px; border: 1px solid var(--text-dark); border-radius: 100px; margin-right: 10px; }
 
@@ -42,7 +42,14 @@ section { padding: 100px 40px; border-bottom: 1px solid var(--border-color); bac
 .section-label { font-size: var(--f-label); font-weight: 400; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.3; margin-bottom: 40px; }
 
 /* DESCRIZIONE A PACCHETTO */
-.project-description { font-size: 24px; line-height: 1.3; font-weight: 400; text-align: justify; hyphens: auto; word-break: break-word; }
+.project-description { 
+    font-size: 24px; 
+    line-height: 1.4; 
+    font-weight: 400; 
+    text-align: justify; 
+    hyphens: auto; 
+    word-break: break-word;
+}
 
 /* DETAILS LIST WITH FILETTI */
 .details-list { list-style: none; border-top: 1px solid var(--border-color); }
@@ -56,18 +63,37 @@ section { padding: 100px 40px; border-bottom: 1px solid var(--border-color); bac
 }
 .detail-item span:last-child { font-weight: 400; text-align: right; }
 
-/* VIDEO SECTION */
-.video-showcase { width: 100%; background-color: #000; line-height: 0; padding: 0; border-bottom: 1px solid var(--border-color); }
-video { width: 100%; height: auto; display: block; filter: none; }
+/* GALLERY SECTION */
+.gallery-container { 
+    width: 100%; 
+    padding: 0; 
+    border-bottom: 1px solid var(--border-color); 
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - var(--header-h));
+}
 
-/* EXERCISES GRID - RIDOTTO PADDING SUPERIORE */
-.section-exercises { padding: 80px 40px 140px 40px; border-bottom: 1px solid var(--border-color); }
-.projects-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px 20px; }
-.project-card { text-decoration: none; color: inherit; }
-.image-box { width: 100%; aspect-ratio: 16/10; background: #000; margin-bottom: 20px; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); position: relative; }
-.image-box img { display: block; width: calc(100% + 2px); height: calc(100% + 2px); object-fit: fill; margin: -1px; filter: grayscale(1); transition: 0.6s ease; }
-.project-card:hover img { filter: grayscale(0); transform: scale(1.02); }
-.project-card-title { font-size: var(--f-interface); font-weight: 400; text-transform: lowercase; line-height: 1.0; }
+.gallery-wrapper { 
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    max-height: 100%;
+    position: relative; 
+    overflow: hidden; 
+}
+
+.gallery-slider { display: flex; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1); }
+.gallery-item { min-width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* SVG NAV ARROWS */
+.nav-arrow { position: absolute; top: 0; bottom: 0; width: 60px; background: transparent; border: none; cursor: pointer; z-index: 10; opacity: 0; transition: opacity 0.4s ease; display: flex; align-items: center; mix-blend-mode: difference; }
+.gallery-wrapper:hover .nav-arrow { opacity: 0.5; }
+.nav-arrow:hover { opacity: 1 !important; }
+.nav-arrow svg { width: 24px; height: auto; stroke: #fff; stroke-width: 1.2px; fill: none; }
+.prev-arrow { left: 20px; justify-content: flex-start; }
+.next-arrow { right: 20px; justify-content: flex-end; }
 
 /* MARQUEE */
 .section-marquee { width: 100%; background-color: var(--text-dark); padding: 60px 0; overflow: hidden; display: flex; white-space: nowrap; border-bottom: 1px solid var(--border-color); }
@@ -90,6 +116,7 @@ footer { width: 100%; background-color: var(--bg-light); padding: 80px 40px; dis
 </head>
 <body>
 <div class="custom-cursor"></div>
+
 <header>
     <a href="../../../homepage.html" class="studio-name" style="opacity:1;">kikerio design</a>
     <ul class="nav-main">
@@ -99,72 +126,51 @@ footer { width: 100%; background-color: var(--bg-light); padding: 80px 40px; dis
         <li><a href="mailto:kikeriodesign@gmail.com" class="nav-email-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a></li>
     </ul>
 </header>
+
 <main>
     <section class="project-hero">
-        <h1 class="project-title-large">introduction to<br>programming <br>for designers</h1>
-        <div class="project-meta-top"><span class="tag-pill">2026</span><span class="tag-pill">WORKSHOP</span><span class="tag-pill">CREATIVE CODING</span></div>
+        <h1 class="project-title-large">summer 22</h1>
+        <div class="project-meta-top">
+             <span class="tag-pill">2022</span>
+            <span class="tag-pill">school project</span>
+            <span class="tag-pill">posters</span>
+           
+        </div>
     </section>
-    
+
     <section class="project-info-section">
         <div class="info-block">
             <div class="section-label">/ Description</div>
-            <p class="project-description">This intensive workshop provides a solid foundation in programming, specifically tailored for geometry, real-time graphics, and interactive design. By exploring the web environment and creative coding tools, participants learn to bridge the gap between conceptual logic and visual execution through a progressive study of HTML, JavaScript, and dynamic data structures.</p>
+            <p class="project-description">
+                This poster was the first school project of the year after summer break: we had to visually represent our 2022 vacation, quickly and playfully, taking inspiration from a poster in a “100 best posters” book. I used this freedom to experiment and create a design I liked, filling it with the key elements that defined my summer 2022.
+            </p>
         </div>
         <div class="info-block">
-            <div class="section-label">/ Workshop Details</div>
+            <div class="section-label">/ Project Details</div>
             <ul class="details-list">
-                <li class="detail-item"><span>year</span><span>january 2026</span></li>
-                <li class="detail-item"><span>context</span><span>creative coding workshop</span></li>
-                <li class="detail-item"><span>tech</span><span>p5.js, html/css</span></li>
+                <li class="detail-item"><span>year</span><span>September 2022</span></li>
+                <li class="detail-item"><span>type of project</span><span>csia school project</span></li>
+                <li class="detail-item"><span>software in use</span><span>Ai / In / Ps</span></li>
             </ul>
         </div>
     </section>
 
-    <section class="video-showcase">
-        <video autoplay muted loop playsinline shadow-sm>
-            <source src="../01_workshop_coding/Video progetto/01_workshop_coding_video.mp4" type="video/mp4">
-        </video>
-    </section>
-
-    <section class="section-exercises">
-        <div class="section-label" style="margin-bottom: 60px;">/ EXERCISES</div>
-        <div class="projects-grid">
-            <a href="esercizi/esercizio_01/esercizio_01.html" class="project-card">
-                <div class="image-box"><img src="esercizi/esercizio_01/esercizio_01_cover.png" alt="Exercise 01"></div>
-                <h3 class="project-card-title">Kinetic Portraiture</h3>
-            </a>
-            <a href="esercizi/esercizio_02/esercizio_02.html" class="project-card">
-                <div class="image-box"><img src="esercizi/esercizio_02/esercizio_02_cover.png" alt="Exercise 02"></div>
-                <h3 class="project-card-title">Volumetric scan</h3>
-            </a>
-            <a href="esercizi/esercizio_03/esercizio_03.html" class="project-card">
-                <div class="image-box"><img src="esercizi/esercizio_03/esercizio_03_cover.png" alt="Exercise 03"></div>
-                <h3 class="project-card-title">Paint Studio</h3>
-            </a>
-            <a href="esercizi/esercizio_04/esercizio_04.html" class="project-card">
-                <div class="image-box"><img src="esercizi/esercizio_04/esercizio_04_cover.png" alt="Exercise 04"></div>
-                <h3 class="project-card-title">Kinetic typo lab</h3>
-            </a>
-            <a href="esercizi/esercizio_05/esercizio_05.html" class="project-card">
-                <div class="image-box"><img src="esercizi/esercizio_05/esercizio_05_cover.png" alt="Exercise 05"></div>
-                <h3 class="project-card-title">Harmonic geometry</h3>
-            </a>
-            <a href="esercizi/esercizio_06/esercizio_06.html" class="project-card">
-                <div class="image-box"><img src="esercizi/esercizio_06/esercizio_06_cover.png" alt="Exercise 06"></div>
-                <h3 class="project-card-title">Structural volumetry</h3>
-            </a>
-            <a href="esercizi/esercizio_07/esercizio_07.html" class="project-card">
-                <div class="image-box"><img src="esercizi/esercizio_07/esercizio_07_cover.png" alt="Exercise 07"></div>
-                <h3 class="project-card-title">Font data</h3>
-            </a>
+    <section class="gallery-container">
+        <div class="gallery-wrapper">
+            <button class="nav-arrow prev-arrow" id="prevBtn"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+            <button class="nav-arrow next-arrow" id="nextBtn"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+            
+            <div class="gallery-slider" id="slider">
+                <div class="gallery-item"><img src="Immagini_progetti/02_summer22_img_01.png" alt="Summer 22 - 01"></div>
+                <div class="gallery-item"><img src="Immagini_progetti/02_summer22_img_02.png" alt="Summer 22 - 02"></div>
+                <div class="gallery-item"><img src="Immagini_progetti/02_summer22_img_03.png" alt="Summer 22 - 03"></div>
+                <div class="gallery-item"><img src="Immagini_progetti/02_summer22_img_04.png" alt="Summer 22 - 04"></div>
+            </div>
         </div>
     </section>
 
     <section class="section-marquee">
-        <div class="marquee-content">
-            <div class="marquee-text">straight to the point —</div>
-            <div class="marquee-text">straight to the point —</div>
-        </div>
+        <div class="marquee-content"><div class="marquee-text">straight to the point —</div><div class="marquee-text">straight to the point —</div></div>
     </section>
 </main>
 
@@ -179,10 +185,17 @@ footer { width: 100%; background-color: var(--bg-light); padding: 80px 40px; dis
 <script>
     const cursor = document.querySelector('.custom-cursor');
     document.addEventListener('mousemove', (e) => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
-    document.querySelectorAll('a, button, .tag-pill, .project-card').forEach(l => { 
-        l.addEventListener('mouseenter', () => cursor.classList.add('link-hover')); 
-        l.addEventListener('mouseleave', () => cursor.classList.remove('link-hover')); 
-    });
+    document.querySelectorAll('a, button').forEach(l => { l.addEventListener('mouseenter', () => cursor.classList.add('link-hover')); l.addEventListener('mouseleave', () => cursor.classList.remove('link-hover')); });
+
+    const slider = document.getElementById('slider');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const totalItems = document.querySelectorAll('.gallery-item').length;
+    let currentIndex = 0;
+
+    function updateGallery() { slider.style.transform = `translateX(-${currentIndex * 100}%)`; }
+    nextBtn.addEventListener('click', () => { currentIndex = (currentIndex + 1) % totalItems; updateGallery(); });
+    prevBtn.addEventListener('click', () => { currentIndex = (currentIndex - 1 + totalItems) % totalItems; updateGallery(); });
 </script>
 </body>
 </html>
