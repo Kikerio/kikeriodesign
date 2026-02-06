@@ -12,7 +12,6 @@
     --bg-light: #ffffff; --text-dark: #000000; --main-font: 'Geist', sans-serif;
     --border-color: #000000; --status-green: #00ff00; --header-h: 100px;
     --f-display: 10vw; 
-    /* Ridotta la dimensione dell'approach text */
     --f-heading: clamp(24px, 3.5vw, 45px);
     --f-interface: 16px; --f-label: 11px;        
 }
@@ -33,6 +32,7 @@ header { width: 100%; position: fixed; top: 0; z-index: 9000; background-color: 
 .nav-email-icon svg { width: 18px; height: auto; stroke: var(--bg-light); stroke-width: 1.5px; fill: none; }
 .nav-email-icon:hover { transform: scale(1.1); }
 
+/* HERO */
 .hero-fullscreen { width: 100%; height: calc(100vh - var(--header-h)); margin-top: var(--header-h); display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border-color); position: relative; background-color: #000000; overflow: hidden; }
 #bg-grid { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; display: grid; grid-template-columns: repeat(25, 1fr); grid-template-rows: repeat(15, 1fr); }
 .bg-cross { display: flex; align-items: center; justify-content: center; font-size: 24px; opacity: 0.2; color: #ffffff; transition: transform 0.3s ease, opacity 0.3s ease; }
@@ -44,14 +44,14 @@ header { width: 100%; position: fixed; top: 0; z-index: 9000; background-color: 
 section { padding: 140px 40px; border-bottom: 1px solid var(--border-color); background: var(--bg-light); position: relative; z-index: 1; }
 .section-label { font-size: var(--f-label); font-weight: 400; text-transform: uppercase; letter-spacing: 0.2em; color: var(--text-dark); opacity: 0.3; margin-bottom: 60px; }
 
-/* APPROACH TEXT REFINED */
 .approach-text { font-size: var(--f-heading); font-weight: 400; line-height: 1.15; max-width: 1100px; letter-spacing: -0.02em; text-transform: none; }
-.approach-text span.highlight { color: var(--text-dark); opacity: 1; }
 
+/* TAGS */
 .tags-container { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; }
 .tag-pill { font-size: var(--f-interface); font-weight: 400; color: var(--text-dark); text-transform: uppercase; text-decoration: none; padding: 25px 10px; border: 1px solid var(--text-dark); border-radius: 100px; text-align: center; transition: 0.3s ease; }
 .tag-pill:hover { background-color: var(--text-dark); color: var(--bg-light); }
 
+/* PROJECTS */
 .projects-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px 20px; }
 .project-card { text-decoration: none; color: inherit; }
 .image-box { width: 100%; aspect-ratio: 16/10; background: #f0f0f0; margin-bottom: 20px; overflow: hidden; }
@@ -60,6 +60,7 @@ section { padding: 140px 40px; border-bottom: 1px solid var(--border-color); bac
 .project-title { font-size: var(--f-interface); font-weight: 400; text-transform: lowercase; margin-bottom: 15px; }
 .mini-pill { font-size: 10px; font-weight: 400; text-transform: uppercase; padding: 6px 12px; border: 1px solid var(--text-dark); border-radius: 50px; margin-right: 5px; }
 
+/* CONTACT */
 .section-contact { display: flex; flex-direction: column; align-items: center; }
 .contact-form-wrapper { width: 100%; max-width: 1000px; }
 .contact-form { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
@@ -70,11 +71,13 @@ section { padding: 140px 40px; border-bottom: 1px solid var(--border-color); bac
 textarea.contact-input { grid-column: 1 / -1; border-radius: 30px; resize: none; }
 .submit-btn { grid-column: 1 / -1; background-color: var(--text-dark); color: var(--bg-light); border: none; padding: 25px; border-radius: 100px; font-size: var(--f-interface); font-weight: 400; text-transform: lowercase; }
 
+/* MARQUEE */
 .section-marquee { width: 100%; background-color: var(--text-dark); padding: 60px 0; overflow: hidden; display: flex; white-space: nowrap; border-bottom: 1px solid var(--border-color); }
 .marquee-text { color: var(--bg-light); font-size: 10vw; font-weight: 400; text-transform: lowercase; padding-right: 80px; letter-spacing: 0.05em; }
 .marquee-content { display: flex; animation: scroll-marquee 25s linear infinite; }
 @keyframes scroll-marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
+/* FOOTER */
 footer { width: 100%; background-color: var(--bg-light); padding: 80px 40px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 60px; }
 .footer-column { display: flex; flex-direction: column; gap: 20px; }
 .footer-label { font-size: var(--f-label); font-weight: 400; text-transform: lowercase; opacity: 0.3; }
