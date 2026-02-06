@@ -11,7 +11,9 @@
 :root {
     --bg-light: #ffffff; --text-dark: #000000; --main-font: 'Geist', sans-serif;
     --border-color: #000000; --status-green: #00ff00; --header-h: 100px;
-    --f-display: 10vw; --f-heading: clamp(32px, 5vw, 80px);
+    --f-display: 10vw; 
+    /* Ridotta la dimensione dell'approach text */
+    --f-heading: clamp(24px, 3.5vw, 45px);
     --f-interface: 16px; --f-label: 11px;        
 }
 
@@ -21,11 +23,9 @@ body { background-color: var(--bg-light); color: var(--text-dark); font-family: 
 .custom-cursor { width: 20px; height: 20px; background-color: #fff; border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1000000; mix-blend-mode: difference; transition: transform 0.1s ease-out; transform: translate(-50%, -50%); }
 .custom-cursor.link-hover { width: 50px; height: 50px; }
 
-/* HEADER - MENU SPENTO DI BASE */
+/* HEADER */
 header { width: 100%; position: fixed; top: 0; z-index: 9000; background-color: var(--bg-light); padding: 0 40px; height: var(--header-h); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
 .studio-name, .nav-main a { font-size: var(--f-interface); font-weight: 400; text-decoration: none; color: var(--text-dark); text-transform: lowercase; letter-spacing: 0.1em; opacity: 0.3; transition: opacity 0.2s ease; }
-
-/* Stato Attivo e Hover */
 .studio-name:hover, .nav-main a:hover, .nav-main a.active { opacity: 1; }
 
 .nav-main { display: flex; list-style: none; gap: 30px; align-items: center; }
@@ -44,8 +44,9 @@ header { width: 100%; position: fixed; top: 0; z-index: 9000; background-color: 
 section { padding: 140px 40px; border-bottom: 1px solid var(--border-color); background: var(--bg-light); position: relative; z-index: 1; }
 .section-label { font-size: var(--f-label); font-weight: 400; text-transform: uppercase; letter-spacing: 0.2em; color: var(--text-dark); opacity: 0.3; margin-bottom: 60px; }
 
-.approach-text { font-size: var(--f-heading); font-weight: 400; line-height: 1.05; max-width: 1400px; letter-spacing: -0.03em; text-transform: none; }
-.approach-text strong { font-weight: 400}
+/* APPROACH TEXT REFINED */
+.approach-text { font-size: var(--f-heading); font-weight: 400; line-height: 1.15; max-width: 1100px; letter-spacing: -0.02em; text-transform: none; }
+.approach-text span.highlight { color: var(--text-dark); opacity: 1; }
 
 .tags-container { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; }
 .tag-pill { font-size: var(--f-interface); font-weight: 400; color: var(--text-dark); text-transform: uppercase; text-decoration: none; padding: 25px 10px; border: 1px solid var(--text-dark); border-radius: 100px; text-align: center; transition: 0.3s ease; }
@@ -89,7 +90,7 @@ footer { width: 100%; background-color: var(--bg-light); padding: 80px 40px; dis
 <body>
 <div class="custom-cursor"></div>
 <header>
-    <a href="index.html" class="studio-name" style="opacity:1;">kikerio design</a>
+    <a href="homepage.html" class="studio-name" style="opacity:1;">kikerio design</a>
     <ul class="nav-main">
         <li><a href="#work">projects</a></li>
         <li><a href="services.html">services</a></li>
@@ -102,7 +103,7 @@ footer { width: 100%; background-color: var(--bg-light); padding: 80px 40px; dis
     
     <section class="section-approach">
         <div class="section-label">/ Approach</div>
-        <p class="approach-text">My approach to design is rooted in deep passion and exhaustive research. I face every project with the same devotion: investigating what has been done before to build what is next. I believe that true creativity is born from a precise, methodical study of hierarchy and logic.</strong></p>
+        <p class="approach-text">My approach to design is rooted in deep passion and exhaustive research. I face every project with the same devotion: investigating what has been done before to build what is next. I believe that true creativity is born<br> from a precise, methodical study of hierarchy and logic.</p>
     </section>
 
     <section class="section-tags">
@@ -161,7 +162,7 @@ footer { width: 100%; background-color: var(--bg-light); padding: 80px 40px; dis
     <div class="footer-column"><span class="footer-label">social</span><a href="#" class="footer-link">instagram</a><a href="#" class="footer-link">behance</a><a href="#" class="footer-link">linkedin</a></div>
     <div class="footer-column"><span class="footer-label">contact</span><a href="mailto:kikeriodesign@gmail.com" class="footer-link">kikeriodesign@gmail.com</a><span class="footer-text" style="opacity:0.3;">lugano, ch</span></div>
     <div class="footer-column"><span class="footer-label">status</span><div class="status-container"><div class="status-dot-wrapper"><div class="status-dot"></div><div class="status-pulse"></div></div><span class="footer-text">available for projects</span></div></div>
-    <div class="footer-bottom-info"><div class="studio-name" style="font-size:14px;font-weight:400;opacity:1;">kikerio design</div><div class="copyright-text" style="font-size:12px;opacity:0.4;">© 2026 portfolio kikerio design — all rights reserved</div></div>
+    <div class="footer-bottom-info"><a href="homepage.html" class="studio-name" style="font-size:14px;font-weight:400;opacity:1; text-decoration:none;">kikerio design</a><div class="copyright-text" style="font-size:12px;opacity:0.4;">© 2026 portfolio kikerio design — all rights reserved</div></div>
 </footer>
 <script>
     const grid = document.getElementById('bg-grid'); const cursor = document.querySelector('.custom-cursor');
