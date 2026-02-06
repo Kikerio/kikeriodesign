@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kikerio Design | Kinetic Typo Lab</title>
+    <style>
+        :root {
+            --bg-light: #ffffff;
+            --accent-dark: #000000;
+            --main-font: sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            background-color: var(--bg-light); 
+            font-family: var(--main-font); 
+            overflow: hidden; 
+            color: var(--accent-dark);
+        }
+
+        /* HEADER - SOLO FRECCIA */
+        .workshop-header {
+            position: fixed; top: 30px; left: 40px; z-index: 9999;
+        }
+
+        .btn-back {
+            background: none; border: none; color: var(--accent-dark);
+            font-family: var(--main-font); font-size: 24px; font-weight: 400;
+            cursor: pointer; text-decoration: none; transition: transform 0.3s ease;
+            display: inline-block;
+        }
+        .btn-back:hover { transform: translateX(-8px); }
+
+        /* VARIANTI ALLINEATE ORIZZONTALMENTE */
+        .variant-container {
+            position: fixed; top: 30px; right: 40px; display: flex; gap: 8px; z-index: 9999;
+        }
+
+        .btn-variant {
+            background: transparent; border: 1px solid var(--accent-dark);
+            color: var(--accent-dark); padding: 8px 16px; font-size: 10px;
+            text-transform: uppercase; cursor: pointer; border-radius: 50px; transition: 0.3s;
+            white-space: nowrap;
+        }
+        .btn-variant.active { background: var(--accent-dark); color: #fff; }
+
+        /* CONTROLLI */
+        .controls-left {
+            position: fixed; left: 40px; top: 50%; transform: translateY(-50%);
+            display: flex; align-items: center; z-index: 9999;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none; width: 150px; background: transparent;
+            transform: rotate(-90deg); cursor: pointer; margin-left: -65px;
+        }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 1px; background: var(--accent-dark); }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 10px; width: 10px; border-radius: 50%; background: var(--accent-dark); margin-top: -4.5px; }
+
+        .footer-ui {
+            position: fixed; bottom: 30px; width: 100%; padding: 0 40px;
+            display: flex; justify-content: center; z-index: 9999;
+        }
+        .btn-reset {
+            background: var(--accent-dark); color: #fff; border: none;
+            padding: 10px 22px; font-size: 10px; text-transform: uppercase;
+            cursor: pointer; border-radius: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workshop-header">
+        <a href="../../01_workshop_coding.html" class="btn-back">←</a>
+    </div>
+
+    <div class="variant-container">
+        <button class="btn-variant active" onclick="setVariant('scanner', this)">Scanner</button>
+        <button class="btn-variant" onclick="setVariant('tunnel', this)">Tunnel</button>
+        <button class="btn-variant" onclick="setVariant('elastic', this)">Elastic</button>
+        <button class="btn-variant" onclick="setVariant('grid', this)">Grid Repetition</button>
+        <button class="btn-variant" onclick="setVariant('vortex', this)">Vortex</button>
+    </div>
+
+    <div class="controls-left">
+        <input type="range" id="sizeSlider" min="40" max="400" step="1" value="150">
+    </div>
+
+    <div class="footer-ui">
+        <button class="btn-reset" onclick="clearCanvas()">Clear Canvas</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.min.js"></script>
+    <script>
+        let currentVariant = 'scanner';
+        let sizeSlider;
+        const word = "HELLO";
+
+        function setup() {
+            createCanvas(windowWidth, windowHeight);
+            background(255);
+            sizeSlider = document.getElementById('sizeSlider');
+            textAlign(CENTER, CENTER);
+            textFont('sans-serif');
+            textStyle(BOLD);
+        }
+
+        function draw() {
+            let s = parseInt(sizeSlider.value);
+            
+            if (currentVariant === 'scanner') {
+                noStroke();
+                fill(0);
+                textSize(s);
+                if (mouseIsPressed) {
+                    text(word, mouseX, mouseY);
+                } else {
+                    background(255, 10);
+                    text(word, width/2, mouseY);
+                }
+            } 
+            
+            else if (currentVariant === 'tunnel') {
+                background(255);
+                noFill();
+                stroke(0);
+                textSize(s);
+                let count = 15;
+                for (let i = 0; i < count; i++) {
+                    let step = (frameCount * 2 + i * 20) % 400;
+                    let scl = map(step, 0, 400, 0.1, 4);
+                    let op = map(step, 0, 400, 255, 0);
+                    stroke(0, op);
+                    push();
+                    translate(width/2, height/2);
+                    scale(scl);
+                    text(word, 0, 0);
+                    pop();
+                }
+            }
+
+            else if (currentVariant === 'elastic') {
+                background(255);
+                fill(0);
+                textSize(s);
+                let gap = map(mouseX, 0, width, 0, 100);
+                for (let i = 0; i < word.length; i++) {
+                    let charX = (width/2 - (word.length * gap)/2) + (i * gap);
+                    text(word[i], charX, height/2);
+                }
+            }
+
+            else if (currentVariant === 'grid') {
+                background(255);
+                fill(0);
+                textSize(s * 0.3);
+                let cols = 10;
+                let rows = 10;
+                for (let i = 0; i <= cols; i++) {
+                    for (let j = 0; j <= rows; j++) {
+                        let x = (width / cols) * i;
+                        let y = (height / rows) * j;
+                        let d = dist(mouseX, mouseY, x, y);
+                        let off = map(d, 0, 300, 20, 0);
+                        text(word, x + off, y + off);
+                    }
+                }
+            }
+
+            else if (currentVariant === 'vortex') {
+                background(255, 40);
+                push();
+                translate(mouseX, mouseY);
+                rotate(frameCount * 0.1);
+                fill(0);
+                textSize(s);
+                text(word, 0, 0);
+                pop();
+            }
+        }
+
+        function setVariant(variant, btn) {
+            currentVariant = variant;
+            document.querySelectorAll('.btn-variant').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            clearCanvas();
+        }
+
+        function clearCanvas() { background(255); }
+        function windowResized() { resizeCanvas(windowWidth, windowHeight); background(255); }
+    </script>
+</body>
+</html>

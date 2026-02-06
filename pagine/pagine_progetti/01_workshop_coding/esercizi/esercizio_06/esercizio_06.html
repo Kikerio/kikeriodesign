@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kikerio Design | Volumetric Editorial</title>
+    <style>
+        :root {
+            --bg-light: #ffffff;
+            --accent-dark: #000000;
+            --main-font: sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            background-color: var(--bg-light); 
+            font-family: var(--main-font); 
+            overflow: hidden; 
+            color: var(--accent-dark);
+        }
+
+        /* HEADER */
+        .workshop-header { position: fixed; top: 30px; left: 40px; z-index: 9999; }
+        .btn-back { background: none; border: none; color: var(--accent-dark); font-size: 24px; cursor: pointer; text-decoration: none; display: inline-block; line-height: 1; }
+
+        /* VARIANTI */
+        .variant-container { position: fixed; top: 30px; right: 40px; display: flex; gap: 8px; z-index: 9999; }
+        .btn-variant { background: transparent; border: 1px solid var(--accent-dark); color: var(--accent-dark); padding: 8px 16px; font-size: 10px; text-transform: uppercase; cursor: pointer; border-radius: 50px; transition: 0.3s; }
+        .btn-variant.active { background: var(--accent-dark); color: #fff; }
+
+        /* CONTROLLI LATERALE */
+        .controls-left { position: fixed; left: 40px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; z-index: 9999; }
+        .slider-label { font-size: 10px; text-transform: uppercase; writing-mode: vertical-rl; transform: rotate(180deg); margin-right: 10px; opacity: 0.5; letter-spacing: 1px; }
+
+        input[type=range] { -webkit-appearance: none; width: 150px; background: transparent; transform: rotate(-90deg); cursor: pointer; margin-left: -65px; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 1px; background: var(--accent-dark); }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 10px; width: 10px; border-radius: 50%; background: var(--accent-dark); margin-top: -4.5px; }
+
+        /* FOOTER */
+        .footer-ui { position: fixed; bottom: 30px; width: 100%; padding: 0 40px; display: flex; justify-content: center; z-index: 9999; }
+        .btn-reset { background: var(--accent-dark); color: #fff; border: none; padding: 10px 22px; font-size: 10px; text-transform: uppercase; cursor: pointer; border-radius: 50px; }
+    </style>
+</head>
+<body>
+
+    <div class="workshop-header">
+        <a href="../../01_workshop_coding.html" class="btn-back">←</a>
+    </div>
+
+    <div class="variant-container">
+        <button class="btn-variant active" onclick="setVariant('deconstructed', this)">Deconstructed</button>
+        <button class="btn-variant" onclick="setVariant('helix', this)">DNA Helix</button>
+        <button class="btn-variant" onclick="setVariant('recursive', this)">Recursive Mesh</button>
+    </div>
+
+    <div class="controls-left">
+        <span class="slider-label">Scale</span>
+        <input type="range" id="sizeSlider" min="20" max="250" step="1" value="120">
+    </div>
+
+    <div class="footer-ui">
+        <button class="btn-reset" onclick="resetView()">Reset Rotation</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.min.js"></script>
+    <script>
+        let currentVariant = 'deconstructed';
+        let rotX = 0, rotY = 0;
+
+        function setup() {
+            createCanvas(windowWidth, windowHeight, WEBGL);
+        }
+
+        function draw() {
+            background(255);
+            let s = parseInt(document.getElementById('sizeSlider').value);
+            
+            // Interazione base
+            if (!mouseIsPressed) {
+                rotX += 0.005;
+                rotY += 0.01;
+            } else {
+                rotY += (mouseX - pmouseX) * 0.01;
+                rotX += (mouseY - pmouseY) * 0.01;
+            }
+            
+            rotateX(rotX);
+            rotateY(rotY);
+
+            noFill();
+            stroke(0);
+            strokeWeight(0.8);
+
+            if (currentVariant === 'deconstructed') {
+                // Un cubo le cui facce si allontanano dal centro in base al tempo
+                let offset = map(sin(frameCount * 0.03), -1, 1, 0, s);
+                for (let i = 0; i < 6; i++) {
+                    push();
+                    if(i==0) translate(0, 0, offset);
+                    if(i==1) translate(0, 0, -offset);
+                    if(i==2) translate(offset, 0, 0);
+                    if(i==3) translate(-offset, 0, 0);
+                    if(i==4) translate(0, offset, 0);
+                    if(i==5) translate(0, -offset, 0);
+                    box(s);
+                    pop();
+                }
+            } 
+            
+            else if (currentVariant === 'helix') {
+                // Struttura a doppia elica fatta di sfere e linee
+                for (let i = 0; i < 20; i++) {
+                    let y = map(i, 0, 20, -s*2, s*2);
+                    let angle = i * 0.5 + frameCount * 0.02;
+                    let x = cos(angle) * s;
+                    let z = sin(angle) * s;
+                    
+                    push();
+                    translate(x, y, z);
+                    sphere(5, 6, 4);
+                    pop();
+                    
+                    push();
+                    translate(-x, y, -z);
+                    sphere(5, 6, 4);
+                    pop();
+                    
+                    line(x, y, z, -x, y, -z); // Connessione tra le due eliche
+                }
+            }
+
+            else if (currentVariant === 'recursive') {
+                // Una griglia sferica che collassa e si espande
+                let detail = Math.floor(map(s, 20, 250, 4, 12));
+                for (let i = 0; i < detail; i++) {
+                    rotateY(frameCount * 0.001 + i);
+                    torus(s, 1, detail, detail);
+                }
+            }
+        }
+
+        function setVariant(v, btn) {
+            currentVariant = v;
+            document.querySelectorAll('.btn-variant').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function resetView() { rotX = 0; rotY = 0; }
+        function windowResized() { resizeCanvas(windowWidth, windowHeight); }
+    </script>
+</body>
+</html>

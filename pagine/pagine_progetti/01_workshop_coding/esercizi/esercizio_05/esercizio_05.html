@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kikerio Design | Kinetic K Lab</title>
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            src: url('../../../../documenti/fonts/Geist-Regular.otf') format('opentype');
+            font-weight: 400;
+        }
+
+        :root {
+            --bg-light: #ffffff;
+            --accent-dark: #000000;
+            --main-font: 'Geist', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            background-color: var(--bg-light); 
+            font-family: var(--main-font); 
+            overflow: hidden; 
+            color: var(--accent-dark);
+        }
+
+        /* HEADER */
+        .workshop-header {
+            position: fixed; top: 30px; left: 40px; z-index: 9999;
+            line-height: 1.2; display: flex; flex-direction: column; gap: 15px;
+        }
+
+        .btn-back {
+            background: none; border: none; color: var(--accent-dark);
+            font-family: var(--main-font); font-size: 24px; font-weight: 400;
+            cursor: pointer; text-decoration: none; transition: transform 0.3s ease;
+            display: inline-block;
+        }
+        .btn-back:hover { transform: translateX(-8px); }
+
+        /* VARIANTI ORIZZONTALI */
+        .variant-container {
+            position: fixed; top: 30px; right: 40px; display: flex; gap: 8px; z-index: 9999;
+        }
+
+        .btn-variant {
+            background: transparent; border: 1px solid var(--accent-dark);
+            color: var(--accent-dark); padding: 8px 16px; font-size: 10px;
+            text-transform: uppercase; cursor: pointer; border-radius: 50px; transition: 0.3s;
+            white-space: nowrap;
+        }
+        .btn-variant.active { background: var(--accent-dark); color: #fff; }
+
+        /* CONTROLLI LATERALE */
+        .controls-left {
+            position: fixed; left: 40px; top: 50%; transform: translateY(-50%);
+            display: flex; align-items: center; z-index: 9999;
+        }
+
+        .slider-label {
+            font-size: 10px; font-weight: 400; text-transform: uppercase;
+            writing-mode: vertical-rl; transform: rotate(180deg);
+            margin-right: 10px; opacity: 0.5;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none; width: 150px; background: transparent;
+            transform: rotate(-90deg); cursor: pointer; margin-left: -65px;
+        }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 1px; background: var(--accent-dark); }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 10px; width: 10px; border-radius: 50%; background: var(--accent-dark); margin-top: -4.5px; }
+
+        .footer-ui {
+            position: fixed; bottom: 30px; width: 100%; padding: 0 40px;
+            display: flex; justify-content: center; z-index: 9999;
+        }
+        .btn-reset {
+            background: var(--accent-dark); color: #fff; border: none;
+            padding: 10px 22px; font-size: 10px; text-transform: uppercase;
+            cursor: pointer; border-radius: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workshop-header">
+        <a href="../../01_workshop_coding.html" class="btn-back">←</a>
+    </div>
+
+    <div class="variant-container">
+        <button class="btn-variant active" onclick="setVariant('harmonic', this)">Harmonic</button>
+        <button class="btn-variant" onclick="setVariant('feedback', this)">Feedback K</button>
+        <button class="btn-variant" onclick="setVariant('trail', this)">Long Trail</button>
+    </div>
+
+    <div class="controls-left">
+        <span class="slider-label">Amount</span>
+        <input type="range" id="amountSlider" min="5" max="150" step="1" value="60">
+    </div>
+
+    <div class="footer-ui">
+        <button class="btn-reset" onclick="clearSketch()">Reset Sketch</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.min.js"></script>
+    <script>
+        const kCoords = [
+            0.00, 0.00, 2.14, 0.00, 2.14, 5.14, 4.53, 2.61,
+            7.15, 2.61, 4.60, 5.24, 7.48, 10.0, 4.96, 10.0,
+            3.06, 6.81, 2.12, 7.96, 2.12, 10.0, 0.00, 10.0
+        ];
+
+        let currentVariant = 'harmonic';
+        let amountSlider;
+
+        function setup() {
+            createCanvas(windowWidth, windowHeight);
+            amountSlider = document.getElementById('amountSlider');
+            noFill();
+            strokeCap(ROUND);
+            strokeJoin(ROUND);
+        }
+
+        function draw() {
+            let num = parseInt(amountSlider.value);
+            
+            if (currentVariant === 'harmonic') {
+                background(255);
+                drawKineticK(num, 0.03, false);
+            } 
+            else if (currentVariant === 'feedback') {
+                background(255, 10); 
+                drawKineticK(num, 0.05, true);
+            }
+            else if (currentVariant === 'trail') {
+                background(255);
+                drawKineticK(num, 0.01, false, true);
+            }
+        }
+
+        function drawKineticK(num, speed, useRandomStroke, isLongTrail) {
+            for (let i = 0; i < num; i++) {
+                push();
+                translate(width / 2, height / 2);
+                
+                let rotation;
+                if (isLongTrail) {
+                    rotation = sin((frameCount + i * 5) * speed) * 90;
+                } else {
+                    rotation = sin((frameCount + (i + 1)) * speed) * 60;
+                }
+                
+                rotate(radians(rotation));
+                
+                if (useRandomStroke) {
+                    stroke(random(255));
+                } else {
+                    stroke(0, map(i, 0, num, 255, 20));
+                }
+
+                const s = map(i, 0, num, 40, 5) * (width/1000);
+                
+                beginShape();
+                for (let j = 0; j < kCoords.length; j += 2) {
+                    const x1 = (kCoords[j] - 3.25) * s;
+                    const y1 = (kCoords[j + 1] - 6) * s;
+                    vertex(x1, y1);
+                }
+                endShape(CLOSE);
+                pop();
+            }
+        }
+
+        function setVariant(variant, btn) {
+            currentVariant = variant;
+            document.querySelectorAll('.btn-variant').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            background(255);
+        }
+
+        function clearSketch() {
+            background(255);
+        }
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+            background(255);
+        }
+    </script>
+</body>
+</html>

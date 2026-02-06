@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kikerio Design | Font Specimen</title>
+    <style>
+        :root {
+            --bg-light: #ffffff;
+            --accent-dark: #000000;
+            --main-font: sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            background-color: var(--bg-light); 
+            font-family: var(--main-font); 
+            overflow: hidden; 
+            color: var(--accent-dark);
+        }
+
+        /* HEADER */
+        .workshop-header { position: fixed; top: 30px; left: 40px; z-index: 9999; }
+        .btn-back { background: none; border: none; color: var(--accent-dark); font-size: 24px; cursor: pointer; text-decoration: none; display: inline-block; line-height: 1; }
+        .btn-back:hover { transform: translateX(-8px); }
+
+        /* VARIANTI */
+        .variant-container { position: fixed; top: 30px; right: 40px; display: flex; gap: 8px; z-index: 9999; }
+        .btn-variant { background: transparent; border: 1px solid var(--accent-dark); color: var(--accent-dark); padding: 8px 16px; font-size: 10px; text-transform: uppercase; cursor: pointer; border-radius: 50px; transition: 0.3s; }
+        .btn-variant.active { background: var(--accent-dark); color: #fff; }
+
+        /* CONTROLLI LATERALE */
+        .controls-left { position: fixed; left: 40px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; z-index: 9999; }
+        .slider-label { font-size: 10px; text-transform: uppercase; writing-mode: vertical-rl; transform: rotate(180deg); margin-right: 10px; opacity: 0.5; letter-spacing: 1px; }
+
+        input[type=range] { -webkit-appearance: none; width: 150px; background: transparent; transform: rotate(-90deg); cursor: pointer; margin-left: -65px; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 1px; background: var(--accent-dark); }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 10px; width: 10px; border-radius: 50%; background: var(--accent-dark); margin-top: -4.5px; }
+
+        /* SYSTEM INFO PANEL */
+        .info-panel { 
+            position: fixed; bottom: 30px; left: 40px; 
+            font-size: 10px; text-transform: uppercase; 
+            letter-spacing: 1px; line-height: 1.8; opacity: 0.4; 
+        }
+        hr { border: 0; border-top: 1px solid var(--accent-dark); margin: 5px 0; opacity: 0.2; }
+    </style>
+</head>
+<body>
+
+    <div class="workshop-header">
+        <a href="../../01_workshop_coding.html" class="btn-back">←</a>
+    </div>
+
+    <div class="variant-container">
+        <button class="btn-variant active" onclick="setVariant('typeview', this)">Type View</button>
+        <button class="btn-variant" onclick="setVariant('archive', this)">Archive</button>
+        <button class="btn-variant" onclick="setVariant('specimen', this)">Specimen Grid</button>
+    </div>
+
+    <div class="controls-left">
+        <span class="slider-label">Expansion</span>
+        <input type="range" id="sizeSlider" min="10" max="400" step="1" value="100">
+    </div>
+
+    <div class="info-panel" id="systemInfo">
+        EXTRACTING FONT DATA...
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.min.js"></script>
+    <script>
+        let rawData;
+        let particles = [];
+        let currentVariant = 'typeview';
+
+        function preload() {
+            rawData = loadJSON('data.json');
+        }
+
+        function setup() {
+            createCanvas(windowWidth, windowHeight);
+            textAlign(CENTER, CENTER);
+            
+            const info = document.getElementById('systemInfo');
+            info.innerHTML = `
+                HOST: ${rawData.hostname || 'FONTS'} <hr>
+                TOTAL: ${rawData.totalFonts || '0'} FONTS INSTALLED <hr>
+                VIEW: FONT SPECIMEN ANALYSIS
+            `;
+
+            if (rawData.files) {
+                let weights = rawData.files.map(f => f.usageWeight);
+                let minW = Math.min(...weights);
+                let maxW = Math.max(...weights);
+
+                // Ordiniamo per mostrare i più usati in modo coerente
+                rawData.files.forEach((f, i) => {
+                    particles.push(new FontPoint(f.name, f.usageWeight, minW, maxW, i));
+                });
+            }
+        }
+
+        function draw() {
+            background(255);
+            let expansion = document.getElementById('sizeSlider').value;
+
+            particles.forEach(p => {
+                p.update();
+                p.display(expansion);
+            });
+        }
+
+        class FontPoint {
+            constructor(name, weight, minW, maxW, index) {
+                this.name = name;
+                this.index = index;
+                this.pos = createVector(random(width), random(height));
+                this.targetPos = createVector(0,0);
+                this.vel = createVector(random(-0.2, 0.2), random(-0.2, 0.2));
+                this.baseSize = map(weight, minW, maxW, 10, 80);
+            }
+
+            update() {
+                if (currentVariant === 'specimen') {
+                    // Calcolo griglia 10x6 per 60 font
+                    let cols = 10;
+                    let spacingX = width / (cols + 1);
+                    let spacingY = height / 7;
+                    this.targetPos.x = spacingX + (this.index % cols) * spacingX;
+                    this.targetPos.y = spacingY + floor(this.index / cols) * spacingY;
+                    this.pos.lerp(this.targetPos, 0.1);
+                } else {
+                    this.pos.add(this.vel);
+                    // Bounce
+                    if (this.pos.x < 0 || this.pos.x > width) this.vel.x *= -1;
+                    if (this.pos.y < 0 || this.pos.y > height) this.vel.y *= -1;
+                }
+            }
+
+            display(exp) {
+                let dynamicSize = this.baseSize * (exp / 100);
+                
+                if (currentVariant === 'typeview') {
+                    fill(0); noStroke();
+                    textFont(this.name);
+                    textSize(dynamicSize);
+                    text("A", this.pos.x, this.pos.y);
+                } 
+                else if (currentVariant === 'archive') {
+                    noFill(); stroke(0, 100); strokeWeight(0.5);
+                    ellipse(this.pos.x, this.pos.y, dynamicSize);
+                    line(this.pos.x - 4, this.pos.y, this.pos.x + 4, this.pos.y);
+                    line(this.pos.x, this.pos.y - 4, this.pos.x, this.pos.y + 4);
+                }
+                else if (currentVariant === 'specimen') {
+                    // Variante Specimen: Lettera + nome rotante
+                    push();
+                    translate(this.pos.x, this.pos.y);
+                    fill(0); noStroke();
+                    textFont(this.name);
+                    textSize(dynamicSize * 0.7);
+                    text("A", 0, 0);
+                    
+                    // Nome del font che ruota piano attorno
+                    rotate(frameCount * 0.01 + this.index);
+                    textFont('sans-serif');
+                    textSize(7);
+                    fill(0, 100);
+                    text(this.name, dynamicSize/2 + 10, 0);
+                    pop();
+                }
+
+                // Hover universale
+                if (dist(mouseX, mouseY, this.pos.x, this.pos.y) < dynamicSize/2 + 5) {
+                    fill(0); noStroke(); textFont('sans-serif'); textSize(9);
+                    text(this.name, this.pos.x, this.pos.y + dynamicSize/2 + 12);
+                }
+            }
+        }
+
+        function setVariant(v, btn) {
+            currentVariant = v;
+            document.querySelectorAll('.btn-variant').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+    </script>
+</body>
+</html>

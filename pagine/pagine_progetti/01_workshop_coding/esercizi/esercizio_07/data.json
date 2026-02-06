@@ -1,0 +1,307 @@
+{
+  "hostname": "FONT SPECIMEN",
+  "platform": "darwin",
+  "totalFonts": 1584,
+  "files": [
+    {
+      "name": "ROBOTO-MEDIUM",
+      "usageWeight": 1770364989814.802,
+      "size": 168644
+    },
+    {
+      "name": "ROBOTO-REGULAR",
+      "usageWeight": 1770364989808.221,
+      "size": 168260
+    },
+    {
+      "name": "MINIONPRO-REGULAR",
+      "usageWeight": 1770328634026.7317,
+      "size": 218640
+    },
+    {
+      "name": "ROBOTO-BOLD",
+      "usageWeight": 1770328633479.1992,
+      "size": 167336
+    },
+    {
+      "name": "ROBOTO-MEDIUMITALIC",
+      "usageWeight": 1770295532083.288,
+      "size": 173416
+    },
+    {
+      "name": "ROBOTO-BLACK",
+      "usageWeight": 1770295532082.3245,
+      "size": 168060
+    },
+    {
+      "name": "ROBOTO-THINITALIC",
+      "usageWeight": 1770295532081.8628,
+      "size": 172860
+    },
+    {
+      "name": "ROBOTO-THIN",
+      "usageWeight": 1770295532080.5532,
+      "size": 168488
+    },
+    {
+      "name": "ROBOTO-LIGHTITALIC",
+      "usageWeight": 1770295532079.8772,
+      "size": 173172
+    },
+    {
+      "name": "ROBOTO-BLACKITALIC",
+      "usageWeight": 1770295532078.5957,
+      "size": 174108
+    },
+    {
+      "name": "ROBOTO-ITALIC",
+      "usageWeight": 1770295532077.896,
+      "size": 170504
+    },
+    {
+      "name": "ROBOTO-BOLDITALIC",
+      "usageWeight": 1770295532075.795,
+      "size": 171508
+    },
+    {
+      "name": "ROBOTO-LIGHT",
+      "usageWeight": 1770295532074.231,
+      "size": 167000
+    },
+    {
+      "name": "MINECRAFT",
+      "usageWeight": 1770241791665.1262,
+      "size": 14488
+    },
+    {
+      "name": "BEBASNEUE-REGULAR",
+      "usageWeight": 1770241791651.4536,
+      "size": 57676
+    },
+    {
+      "name": "AKZIDGROPROREG",
+      "usageWeight": 1770219467084.3474,
+      "size": 96200
+    },
+    {
+      "name": "SOURCECODEPRO-BLACK",
+      "usageWeight": 1770219467080.3687,
+      "size": 138384
+    },
+    {
+      "name": "SOURCECODEPRO-SEMIBOLD",
+      "usageWeight": 1770219467079.9902,
+      "size": 138208
+    },
+    {
+      "name": "SOURCECODEPRO-REGULAR",
+      "usageWeight": 1770219467079.1252,
+      "size": 138680
+    },
+    {
+      "name": "SOURCECODEPRO-EXTRALIGHT",
+      "usageWeight": 1770219467078.5896,
+      "size": 139860
+    },
+    {
+      "name": "FONTSPRING-DEMO-PODIUMSHARP-8.13",
+      "usageWeight": 1770219467061.0505,
+      "size": 20784
+    },
+    {
+      "name": "FONTSPRING-DEMO-PODIUMSHARP-3.13",
+      "usageWeight": 1770219467060.4858,
+      "size": 20652
+    },
+    {
+      "name": "CABIN-BOLD",
+      "usageWeight": 1770219467055.603,
+      "size": 76296
+    },
+    {
+      "name": "CABIN-MEDIUM",
+      "usageWeight": 1770219467055.231,
+      "size": 76592
+    },
+    {
+      "name": "CABIN-REGULAR",
+      "usageWeight": 1770219467054.796,
+      "size": 76536
+    },
+    {
+      "name": "FONTSPRING-DEMO-PODIUMSHARP-8.10",
+      "usageWeight": 1770219467024.8782,
+      "size": 20720
+    },
+    {
+      "name": "FERRON-EXTRAEXPANDED",
+      "usageWeight": 1770219467017.5205,
+      "size": 7864
+    },
+    {
+      "name": "FERRON-REGULAR",
+      "usageWeight": 1770219467016.2786,
+      "size": 7520
+    },
+    {
+      "name": "GOLDENGOOSEUPPERCASE-VARIABLEVF",
+      "usageWeight": 1770219467014.9202,
+      "size": 26248
+    },
+    {
+      "name": "THORSA",
+      "usageWeight": 1770219467013.612,
+      "size": 17380
+    },
+    {
+      "name": "KUDRY_WEIRD-HEADLINE",
+      "usageWeight": 1770219467011.0947,
+      "size": 120364
+    },
+    {
+      "name": "SF-PRO-ITALIC",
+      "usageWeight": 1770157452171.9033,
+      "size": 17496340
+    },
+    {
+      "name": "SF-PRO",
+      "usageWeight": 1770157452161.8652,
+      "size": 23138740
+    },
+    {
+      "name": "VISCONTE-REALE-BLACK",
+      "usageWeight": 1770108657582.4026,
+      "size": 139252
+    },
+    {
+      "name": "VISCONTE-REALE-EXTRABOLD",
+      "usageWeight": 1770108657581.968,
+      "size": 139204
+    },
+    {
+      "name": "VISCONTE-REALE-BOLD",
+      "usageWeight": 1770108657581.5254,
+      "size": 138412
+    },
+    {
+      "name": "VISCONTE-REALE-REGULAR",
+      "usageWeight": 1770108657580.9954,
+      "size": 137088
+    },
+    {
+      "name": "VISCONTE-BLACK",
+      "usageWeight": 1770108657579.577,
+      "size": 122248
+    },
+    {
+      "name": "VISCONTE-EXTRABOLD",
+      "usageWeight": 1770108657579.1672,
+      "size": 142792
+    },
+    {
+      "name": "VISCONTE-BOLD",
+      "usageWeight": 1770108657578.526,
+      "size": 137972
+    },
+    {
+      "name": "VISCONTE-REGULAR",
+      "usageWeight": 1770108657578.018,
+      "size": 138300
+    },
+    {
+      "name": "UNITEDSTATES",
+      "usageWeight": 1770108657567.8127,
+      "size": 21588
+    },
+    {
+      "name": "UNIGEO64-EXTRABOLD-ITALIC",
+      "usageWeight": 1770108657566.5664,
+      "size": 200024
+    },
+    {
+      "name": "UNIGEO64-EXTRABOLD",
+      "usageWeight": 1770108657566.2197,
+      "size": 196700
+    },
+    {
+      "name": "UNIGEO64-BOLD-ITALIC",
+      "usageWeight": 1770108657565.7673,
+      "size": 191228
+    },
+    {
+      "name": "UNIGEO64-BOLD",
+      "usageWeight": 1770108657565.3418,
+      "size": 186856
+    },
+    {
+      "name": "UNIGEO64-SEMIBOLD-ITALIC",
+      "usageWeight": 1770108657565.0005,
+      "size": 172668
+    },
+    {
+      "name": "UNIGEO64-SEMIBOLD",
+      "usageWeight": 1770108657564.5298,
+      "size": 169376
+    },
+    {
+      "name": "UNIGEO64-MEDIUM-ITALIC",
+      "usageWeight": 1770108657564.306,
+      "size": 170776
+    },
+    {
+      "name": "UNIGEO64-MEDIUM",
+      "usageWeight": 1770108657563.9963,
+      "size": 167088
+    },
+    {
+      "name": "UNIGEO64-ITALIC",
+      "usageWeight": 1770108657563.3577,
+      "size": 171964
+    },
+    {
+      "name": "UNIGEO64-REGULAR",
+      "usageWeight": 1770108657563.015,
+      "size": 167916
+    },
+    {
+      "name": "UNIGEO64-LIGHT-ITALIC",
+      "usageWeight": 1770108657562.6956,
+      "size": 168356
+    },
+    {
+      "name": "UNIGEO64-LIGHT",
+      "usageWeight": 1770108657562.272,
+      "size": 164444
+    },
+    {
+      "name": "UNIGEO64-EXTRALIGHT-ITALIC",
+      "usageWeight": 1770108657561.7976,
+      "size": 168432
+    },
+    {
+      "name": "UNIGEO64-EXTRALIGHT",
+      "usageWeight": 1770108657561.3652,
+      "size": 163996
+    },
+    {
+      "name": "UNIGEO64-THIN-ITALIC",
+      "usageWeight": 1770108657559.545,
+      "size": 168064
+    },
+    {
+      "name": "UNIGEO64-THIN",
+      "usageWeight": 1770108657559.2236,
+      "size": 163348
+    },
+    {
+      "name": "UNIGEO32-EXTRABOLD-ITALIC",
+      "usageWeight": 1770108657557.9636,
+      "size": 199520
+    },
+    {
+      "name": "UNIGEO32-EXTRABOLD",
+      "usageWeight": 1770108657557.3325,
+      "size": 218268
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,20 +7,14 @@
     <style>
         @font-face {
             font-family: 'Geist';
-            src: url('giorno_01/fonts/Geist-Regular.woff2') format('woff2');
+            src: url('../../../../documenti/fonts/Geist-Regular.otf') format('opentype');
             font-weight: 400;
-        }
-        @font-face {
-            font-family: 'Geist';
-            src: url('giorno_01/fonts/Geist-Black.woff2') format('woff2');
-            font-weight: 900;
         }
 
         :root {
-            --bg-light: #f5f5dc;
-            --accent-dark: #2B1E16;
+            --bg-light: #ffffff;
+            --accent-dark: #000000;
             --main-font: 'Geist', sans-serif;
-            --page-margin: 60px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -32,97 +26,121 @@
             color: var(--accent-dark);
         }
 
-        header {
-            position: fixed; top: 0; width: 100%; padding: 50px var(--page-margin);
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 9999; pointer-events: none;
-        }
-
-        .header-left { text-align: left; line-height: 1.2; pointer-events: auto; }
-        .workshop-info { font-size: 13px; font-weight: 900; text-transform: uppercase; }
-        .sub-info { font-size: 11px; font-weight: 400; text-transform: uppercase; opacity: 0.6; }
-
         #inputImage { display: none; }
 
+        /* INTESTAZIONE UNIFORMATA - SOLO FRECCIA */
+        .workshop-header {
+            position: fixed;
+            top: 30px;
+            left: 40px;
+            z-index: 9999;
+            line-height: 1.2;
+        }
+
+        .btn-back {
+            background: none;
+            border: none;
+            color: var(--accent-dark);
+            font-family: var(--main-font);
+            font-size: 24px;
+            font-weight: 400;
+            cursor: pointer;
+            width: fit-content;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            line-height: 1;
+        }
+        .btn-back:hover { transform: translateX(-8px); }
+
+        /* VARIANTI (TOP RIGHT) */
+        .variant-container {
+            position: fixed;
+            top: 30px;
+            right: 40px;
+            display: flex;
+            gap: 10px;
+            z-index: 9999;
+        }
+
+        .btn-variant {
+            background: transparent;
+            border: 1px solid var(--accent-dark);
+            color: var(--accent-dark);
+            padding: 8px 16px;
+            font-size: 10px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: 0.3s;
+        }
+        .btn-variant.active { background: var(--accent-dark); color: #fff; }
+
+        /* CONTROLLI SLIDER (LEFT) */
         .controls-left {
-            position: fixed; left: var(--page-margin); top: 50%; 
+            position: fixed; left: 40px; top: 50%; 
             transform: translateY(-50%); display: flex; align-items: center; 
-            z-index: 9999; pointer-events: auto;
+            z-index: 9999;
         }
 
         .slider-label {
-            font-size: 10px; font-weight: 900; text-transform: uppercase;
-            letter-spacing: 0.15em; color: var(--accent-dark);
+            font-size: 10px; font-weight: 400; text-transform: uppercase;
             writing-mode: vertical-rl; transform: rotate(180deg);
-            white-space: nowrap; margin-right: 10px;
+            margin-right: 10px; opacity: 0.5;
         }
 
         input[type=range] {
             -webkit-appearance: none; width: 150px; background: transparent;
             transform: rotate(-90deg); cursor: pointer; margin-left: -65px;
         }
-        
-        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 1.5px; background: var(--accent-dark); opacity: 0.4; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 12px; width: 12px; border-radius: 50%; background: var(--accent-dark); margin-top: -5px; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 1px; background: var(--accent-dark); }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 10px; width: 10px; border-radius: 50%; background: var(--accent-dark); margin-top: -4.5px; }
 
+        /* SHAPE CONTROLS (RIGHT) */
         .controls-right {
-            position: fixed; right: var(--page-margin); top: 50%; 
+            position: fixed; right: 40px; top: 50%; 
             transform: translateY(-50%); display: flex; flex-direction: column; 
-            gap: 15px; z-index: 9999; pointer-events: auto; align-items: center;
+            gap: 15px; z-index: 9999; align-items: center;
         }
-
-        .header-buttons { display: flex; gap: 6px; pointer-events: auto; }
-        .btn-variant {
-            background: transparent; border: 1.5px solid var(--accent-dark);
-            color: var(--accent-dark); padding: 6px 15px; font-size: 9px; font-weight: 900;
-            text-transform: uppercase; cursor: pointer; border-radius: 50px; transition: all 0.3s;
-        }
-        .btn-variant:hover, .btn-variant.active { background: var(--accent-dark); color: var(--bg-light); }
 
         .shape-btn {
-            background: transparent; border: 1.5px solid var(--accent-dark);
+            background: transparent; border: 1px solid rgba(0,0,0,0.1);
             color: var(--accent-dark); width: 42px; height: 42px;
-            border-radius: 50%; cursor: pointer; transition: all 0.3s;
-            display: flex; align-items: center; justify-content: center; padding: 8px;
+            border-radius: 50%; cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; justify-content: center; padding: 10px;
         }
-        .shape-btn svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2.5; }
-        .shape-btn:hover, .shape-btn.active { background: var(--accent-dark); color: var(--bg-light); }
+        .shape-btn svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.5; }
+        .shape-btn.active { background: rgba(0,0,0,0.05); border-color: var(--accent-dark); }
 
-        .footer-container {
-            position: fixed; bottom: 40px; width: 100%; padding: 0 var(--page-margin);
-            display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+        /* FOOTER */
+        .footer-ui {
+            position: fixed; bottom: 30px; width: 100%; padding: 0 40px;
+            display: flex; justify-content: space-between; align-items: center;
             z-index: 9999; pointer-events: none;
         }
+        .footer-ui * { pointer-events: auto; }
 
-        .btn-toggle {
-            background: none; border: none; font-size: 10px; font-weight: 900;
-            text-transform: uppercase; color: var(--accent-dark); opacity: 0.4; cursor: pointer; pointer-events: auto;
-        }
-        .btn-toggle.active { opacity: 1; text-decoration: underline; }
-        
         .btn-reset {
-            background: var(--accent-dark); color: var(--bg-light); border: none;
-            padding: 10px 22px; font-size: 10px; font-weight: 900; text-transform: uppercase;
-            cursor: pointer; border-radius: 50px; pointer-events: auto;
+            background: var(--accent-dark); color: #fff; border: none;
+            padding: 10px 22px; font-size: 10px; font-weight: 400; text-transform: uppercase;
+            cursor: pointer; border-radius: 50px;
         }
     </style>
 </head>
-<body id="body">
+<body>
 
-    <img id="inputImage" src="/progetti/01_workshop_coding/esercizi/esercizio_01/mc.png" alt="source">
+    <div class="workshop-header">
+        <a href="../../01_workshop_coding.html" class="btn-back">←</a>
+    </div>
 
-    <header>
-        <div class="header-left">
-            <div class="workshop-info">Workshop 2</div>
-            <div class="sub-info">High-Speed Lab</div>
-        </div>
-        <div class="header-buttons">
-            <button class="btn-variant active" onclick="setVariant(1, this)">V.01 Particle Cloud</button>
-            <button class="btn-variant" onclick="setVariant(2, this)">V.02 Fast ASCII</button>
-        </div>
-    </header>
+    <img id="inputImage" src="mc.png">
 
-    <div class="controls-left" id="pointControls">
+    <div class="variant-container">
+        <button class="btn-variant active" onclick="setVariant(1, this)">V.01 Particle Cloud</button>
+        <button class="btn-variant" onclick="setVariant(2, this)">V.02 Fast ASCII</button>
+    </div>
+
+    <div class="controls-left">
         <span id="sliderLabel" class="slider-label">Size</span>
         <input type="range" id="sizeSlider" min="0.1" max="1.8" step="0.05" value="0.9">
     </div>
@@ -139,10 +157,9 @@
         </button>
     </div>
 
-    <div class="footer-container">
-        <button id="toggleNoise" class="btn-toggle active" onclick="this.classList.toggle('active')" style="text-align: left;">Reaction On</button>
-        <button class="btn-reset" onclick="resetSketch()">Reset View</button>
-        <div style="width: 100px;"></div> 
+    <div class="footer-ui">
+        <button id="toggleNoise" class="btn-variant active" onclick="this.classList.toggle('active')">Reaction On</button>
+        <button class="btn-reset" onclick="location.reload()">Reset View</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.min.js"></script>
@@ -151,21 +168,22 @@
         let modalita = 1;
         let formaAttuale = 'circle';
         let gridWidth = 0, gridHeight = 0;
+        let tempImg;
         const d = 5; 
         const asciiChars = "@#8W&MWB8NM".split(""); 
 
+        function preload() {
+            tempImg = loadImage('mc.png');
+        }
+
         function setup() {
             createCanvas(windowWidth, windowHeight);
-            pixelDensity(1); // Forziamo a 1 per massima velocità
+            pixelDensity(1);
             
-            let rawImg = document.getElementById('inputImage');
-            let tempImg = createImage(rawImg.width, rawImg.height);
-            tempImg.drawingContext.drawImage(rawImg, 0, 0);
             tempImg.resize(tempImg.width / 1.8, 0); 
-            
             tempImg.loadPixels();
+            
             let maxX = 0, maxY = 0;
-
             for (let j = 0; j < tempImg.height; j++) {
                 for (let i = 0; i < tempImg.width; i++) {
                     let idx = (i + j * tempImg.width) * 4;
@@ -173,33 +191,31 @@
                     
                     if (a > 120 && r < 250) {
                         imgData.push({
-                            origX: i * d,
-                            origY: j * d,
-                            currX: i * d,
-                            currY: j * d,
-                            br: r,
-                            noiseSeed: random(1000)
+                            origX: i * d, origY: j * d,
+                            currX: i * d, currY: j * d,
+                            br: r, noiseSeed: random(1000)
                         });
-                        if(i > maxX) maxX = i;
-                        if(j > maxY) maxY = j;
+                        if(i * d > maxX) maxX = i * d;
+                        if(j * d > maxY) maxY = j * d;
                     }
                 }
             }
-            gridWidth = maxX * d;
-            gridHeight = maxY * d;
+            gridWidth = maxX;
+            gridHeight = maxY;
             rectMode(CENTER);
             noStroke();
             textFont('Geist');
-            textStyle(900);
         }
 
         function draw() {
-            background('#f5f5dc'); 
+            background(255); 
+            
             const ox = (width - gridWidth) / 2;
             const oy = (height - gridHeight) / 2;
+            
             const isNoiseOn = document.getElementById('toggleNoise').classList.contains('active');
             const sliderVal = document.getElementById('sizeSlider').value;
-            const time = frameCount * 0.05; // Noise più veloce
+            const time = frameCount * 0.05;
 
             for (let p of imgData) {
                 let drawX = ox + p.origX;
@@ -208,7 +224,7 @@
 
                 if (val > 40) {
                     if (isNoiseOn) {
-                        let dMouse = dist(mouseX, mouseY, drawX, drawY);
+                        let dMouse = dist(mouseX, mouseY, ox + p.currX, oy + p.currY);
                         
                         if (modalita === 1) {
                             let radius = 180;
@@ -225,33 +241,24 @@
                             drawX = ox + p.currX;
                             drawY = oy + p.currY;
                         } else {
-                            // ASCII FAST: Reazione immediata senza lerp per velocità
                             let radius = 130;
                             if (dMouse < radius) {
                                 let force = (radius - dMouse) / radius;
                                 drawX += (drawX - mouseX) * force * sliderVal;
                                 drawY += (drawY - mouseY) * force * sliderVal;
-                                // Aggiunta noise frenetico
-                                drawX += (noise(p.noiseSeed, time) - 0.5) * 20 * force;
-                                drawY += (noise(p.noiseSeed + 10, time) - 0.5) * 20 * force;
                             }
                         }
                     }
 
+                    fill(0);
                     if (modalita === 1) {
-                        let c = color('#2B1E16');
-                        c.setAlpha(map(val, 40, 255, 30, 255));
-                        fill(c);
                         let size = map(val, 40, 255, 0.5, d * sliderVal);
                         if (formaAttuale === 'circle') circle(drawX, drawY, size);
                         else if (formaAttuale === 'square') rect(drawX, drawY, size, size);
                         else if (formaAttuale === 'star') drawStar(drawX, drawY, size/2.2, size/1.1, 5);
                     } else {
-                        let c = color('#2B1E16');
-                        c.setAlpha(map(val, 40, 255, 60, 255));
-                        fill(c);
                         let charIdx = floor(map(val, 40, 255, 0, asciiChars.length - 1));
-                        textSize(map(val, 40, 255, 3, 8));
+                        textSize(map(val, 40, 255, 3, 10));
                         text(asciiChars[charIdx], drawX, drawY);
                     }
                 }
@@ -281,13 +288,6 @@
             formaAttuale = type;
             document.querySelectorAll('.shape-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-        }
-
-        function resetSketch() {
-            modalita = 1; formaAttuale = 'circle';
-            setVariant(1, document.querySelectorAll('.btn-variant')[0]);
-            setShape('circle', document.querySelectorAll('.shape-btn')[0]);
-            document.getElementById('sizeSlider').value = 0.9;
         }
 
         function windowResized() { resizeCanvas(windowWidth, windowHeight); }

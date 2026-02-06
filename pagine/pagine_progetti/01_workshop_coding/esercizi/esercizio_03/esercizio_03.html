@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kikerio Design | Volumetric Paint Studio</title>
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            src: url('../../../../documenti/fonts/Geist-Regular.otf') format('opentype');
+            font-weight: 400;
+        }
+
+        :root {
+            --bg-light: #ffffff;
+            --accent-dark: #000000;
+            --main-font: 'Geist', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            background-color: var(--bg-light); 
+            font-family: var(--main-font); 
+            overflow: hidden; 
+            color: var(--accent-dark);
+            cursor: crosshair;
+            user-select: none;
+        }
+
+        /* HEADER */
+        .workshop-header { position: fixed; top: 30px; left: 40px; z-index: 9999; }
+        .btn-back { background: none; border: none; color: var(--accent-dark); font-size: 24px; cursor: pointer; text-decoration: none; display: inline-block; line-height: 1; }
+
+        /* VARIANTS */
+        .variant-container { position: fixed; top: 30px; right: 40px; display: flex; gap: 8px; z-index: 9999; }
+        .btn-variant { background: transparent; border: 1px solid var(--accent-dark); color: var(--accent-dark); padding: 8px 16px; font-size: 10px; text-transform: uppercase; cursor: pointer; border-radius: 50px; }
+        .btn-variant.active { background: var(--accent-dark); color: #fff; }
+
+        /* SIDEBAR LEFT */
+        .sidebar-left { position: fixed; left: 40px; top: 50%; transform: translateY(-50%); z-index: 9999; }
+        input[type=range] { -webkit-appearance: none; width: 150px; background: transparent; transform: rotate(-90deg); cursor: pointer; margin-left: -65px; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 1px; background: var(--accent-dark); }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 12px; width: 12px; border-radius: 50%; background: var(--accent-dark); margin-top: -5.5px; }
+
+        /* CONTROLLI MODALITÀ */
+        .controls-right { position: fixed; right: 40px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 15px; z-index: 9999; }
+        .toggle-btn { width: 45px; height: 45px; background: var(--accent-dark); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 50%; opacity: 0.3; transition: 0.3s; }
+        .toggle-btn.active { opacity: 1; }
+        .toggle-btn svg { width: 20px; height: 20px; stroke: #fff; stroke-width: 1.5; fill: none; }
+
+        /* FOOTER UI */
+        .footer-ui { position: fixed; bottom: 30px; width: 100%; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; z-index: 9999; pointer-events: none; }
+        .footer-ui > * { pointer-events: auto; }
+
+        .center-group { display: flex; align-items: center; gap: 20px; position: absolute; left: 50%; transform: translateX(-50%); }
+
+        .undo-redo-ctrl { display: flex; gap: 10px; }
+        .btn-history { 
+            background: #fff; 
+            border: 1px solid var(--accent-dark); 
+            width: 40px; height: 40px; 
+            border-radius: 50%; 
+            cursor: pointer; 
+            display: flex; align-items: center; justify-content: center; 
+            transition: 0.2s; 
+        }
+        .btn-history:hover { background: var(--accent-dark); }
+        .btn-history:hover svg { stroke: #fff; }
+        .btn-history svg { width: 18px; height: 18px; stroke: var(--accent-dark); stroke-width: 2; fill: none; }
+
+        .btn-reset { background: var(--accent-dark); color: #fff; border: none; padding: 12px 24px; font-size: 10px; text-transform: uppercase; cursor: pointer; border-radius: 50px; }
+
+        .btn-download { background: none; border: none; cursor: pointer; padding: 5px; }
+        .btn-download svg { width: 18px; height: 18px; stroke: var(--accent-dark); stroke-width: 1.2; fill: none; }
+    </style>
+</head>
+<body>
+
+    <div class="workshop-header">
+        <a href="../../01_workshop_coding.html" class="btn-back">←</a>
+    </div>
+
+    <div class="variant-container">
+        <button class="btn-variant active" onclick="setVariant('grignani', this)">Grignani</button>
+        <button class="btn-variant" onclick="setVariant('chromatic', this)">Chromatic</button>
+        <button class="btn-variant" onclick="setVariant('blur', this)">Gradient</button>
+        <button class="btn-variant" onclick="setVariant('wireframe', this)">Wireframe</button>
+    </div>
+
+    <div class="sidebar-left">
+        <input type="range" id="sizeSlider" min="5" max="300" step="1" value="80">
+    </div>
+
+    <div class="controls-right">
+        <button id="singleBtn" class="toggle-btn" onclick="setMirror(false)">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg>
+        </button>
+        <button id="mirrorBtn" class="toggle-btn active" onclick="setMirror(true)">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="4" x2="12" y2="20"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="12" r="3"/></svg>
+        </button>
+    </div>
+
+    <div class="footer-ui">
+        <div id="pickerWrapper" style="opacity: 0.1; pointer-events: none;">
+            <input type="color" id="colorPicker" value="#0047FF">
+        </div>
+
+        <div class="center-group">
+            <div class="undo-redo-ctrl">
+                <button class="btn-history" onclick="undoAction()">
+                    <svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
+                </button>
+                <button class="btn-history" onclick="redoAction()">
+                    <svg viewBox="0 0 24 24"><path d="M15 14l5-5-5-5"/><path d="M4 20v-7a4 4 0 0 1 4-4h12"/></svg>
+                </button>
+            </div>
+            <button class="btn-reset" onclick="clearCanvas()">Clear Space</button>
+        </div>
+
+        <div class="download-wrapper">
+            <button class="btn-download" onclick="saveArtwork()">
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.min.js"></script>
+    <script>
+        let currentVariant = 'grignani';
+        let isMirrored = true;
+        let states = [];
+        let redoStack = [];
+        let isDrawingAction = false;
+
+        function setup() {
+            createCanvas(windowWidth, windowHeight);
+            background(255);
+            // Salva lo stato iniziale (foglio bianco)
+            states.push(get());
+        }
+
+        function draw() {
+            // Se il mouse viene premuto, inizia un'azione
+            if (mouseIsPressed) {
+                // Controllo per non disegnare sopra la UI
+                if (mouseY < height - 80 && mouseY > 80 && mouseX > 80 && mouseX < width - 80) {
+                    isDrawingAction = true;
+                    let s = document.getElementById('sizeSlider').value;
+
+                    if (currentVariant === 'grignani') {
+                        noStroke(); 
+                        fill(frameCount % 2 == 0 ? 0 : 255);
+                    } else if (currentVariant === 'chromatic') {
+                        noStroke(); 
+                        colorMode(HSB, 360, 100, 100);
+                        fill(map(mouseX + mouseY, 0, width + height, 0, 360), 80, 95);
+                        colorMode(RGB);
+                    } else if (currentVariant === 'blur') {
+                        smooth(); noStroke(); 
+                        let c = color(document.getElementById('colorPicker').value);
+                        fill(red(c), green(c), blue(c), 15);
+                    } else if (currentVariant === 'wireframe') {
+                        noFill(); stroke(0); strokeWeight(1);
+                    }
+
+                    ellipse(mouseX, mouseY, s, s);
+                    if (isMirrored) ellipse(width - mouseX, mouseY, s, s);
+                    if (currentVariant !== 'blur') noSmooth();
+                }
+            }
+        }
+
+        // Quando rilasci il mouse, l'azione di disegno è finita e viene salvata
+        function mouseReleased() {
+            if (isDrawingAction) {
+                states.push(get());
+                if (states.length > 50) states.shift();
+                redoStack = []; 
+                isDrawingAction = false;
+            }
+        }
+
+        function undoAction() {
+            if (states.length > 1) {
+                // Sposta lo stato attuale nel redo
+                redoStack.push(states.pop());
+                // Carica lo stato immediatamente precedente
+                let prevState = states[states.length - 1];
+                image(prevState, 0, 0);
+            }
+        }
+
+        function redoAction() {
+            if (redoStack.length > 0) {
+                let nextState = redoStack.pop();
+                states.push(nextState);
+                image(nextState, 0, 0);
+            }
+        }
+
+        function setMirror(val) {
+            isMirrored = val;
+            document.getElementById('mirrorBtn').classList.toggle('active', isMirrored);
+            document.getElementById('singleBtn').classList.toggle('active', !isMirrored);
+        }
+
+        function setVariant(v, btn) {
+            currentVariant = v;
+            document.querySelectorAll('.btn-variant').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            let picker = document.getElementById('pickerWrapper');
+            picker.style.opacity = (v === 'blur') ? '1' : '0.1';
+            picker.style.pointerEvents = (v === 'blur') ? 'auto' : 'none';
+        }
+
+        function clearCanvas() { 
+            background(255); 
+            states = [get()]; 
+            redoStack = [];
+        }
+
+        function saveArtwork() { 
+            saveCanvas('kikerio design_volumetric_paint_studio', 'png'); 
+        }
+
+        function windowResized() {
+            let temp = get();
+            resizeCanvas(windowWidth, windowHeight);
+            image(temp, 0, 0);
+        }
+    </script>
+</body>
+</html>
